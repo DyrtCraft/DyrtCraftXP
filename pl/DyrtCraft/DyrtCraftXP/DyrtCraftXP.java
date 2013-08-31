@@ -1,74 +1,38 @@
 package pl.DyrtCraft.DyrtCraftXP;
 
-import org.bukkit.ChatColor;
-import org.bukkit.block.Sign;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
 
-public class DyrtCraftXP extends JavaPlugin implements Listener {
-
-	private ServerInventory serverInventory;
+public class DyrtCraftXP extends JavaPlugin implements PluginMessageListener, Plugin {
 	
 	public void onEnable() {
+		
 		getLogger().info("Wlaczanie DyrtCraftXP v" + getDescription().getVersion() + " by " + getDescription().getAuthors() + "...");
-	
+		
+		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+		
 		saveDefaultConfig();
+
+		getCommand("xp").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.XpCommand(this));
+		getCommand("lobby").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.LobbyCommand(this));
 		
-		//getCommand("dyrtcraftxp:version").setExecutor(new pl.DyrtCraft.DyrtCraftXP.DyrtcraftxpCommand(this));
-		getCommand("xp").setExecutor(new pl.DyrtCraft.DyrtCraftXP.XpCommand(this));
+		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.Bungee(this), this);
+		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.TeleportInventory(this), this);
+		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.LobbySign(this), this);
 		
-		getServer().getPluginManager().registerEvents(this, this);
-		//getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.PlayerJoinListener(this), this);
-		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.ServerInventory(this), this);
-		
-		serverInventory = new ServerInventory(this);
+		//getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.xpadd.JoinedNewServer(this), this);
+		//getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.xpadd.KilledMob(this), this);
 	}
 	
-	@EventHandler
-	public void onPlayerInteract(PlayerInteractEvent e) {
-		/*if(getConfig().getBoolean("emerald", true)) {
-			e.getAction();
-			if(Action.RIGHT_CLICK_AIR != null) {
-				e.getItem().getType();
-				if(Material.EMERALD != null) {
-					serverInventory.show(e.getPlayer());
-				}
-			}
-			if(Action.RIGHT_CLICK_BLOCK != null) {
-				e.getItem().getType();
-				if(Material.EMERALD != null) {
-					serverInventory.show(e.getPlayer());
-				}
-			}
-		}*/
-		if(!(e.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
-		if(e.getClickedBlock().getState() instanceof Sign) {
-			Sign s = (Sign) e.getClickedBlock().getState();
-			if(s.getLine(1).equalsIgnoreCase("Lista serwerów"))
-			if(s.getLine(2).equalsIgnoreCase(ChatColor.UNDERLINE + "" + ChatColor.BOLD + "DyrtCraft")) {
-				serverInventory.show(e.getPlayer());
-			}
-		}
+	public void onDisable() {
+		saveConfig();
 	}
-	
-	@EventHandler
-	public void onPlaceSign(SignChangeEvent e) {
-		if(e.getLine(0).equalsIgnoreCase("[Servers]")) {
-			if(!(e.getPlayer().isOp())) {
-				e.setCancelled(true);
-				e.getPlayer().sendMessage(ChatColor.RED + "Ojj, brak odpowiednich uprawnien!");
-			} else {
-				e.setLine(0, "");
-				e.setLine(1, "Lista serwerów");
-				e.setLine(2, ChatColor.UNDERLINE + "" + ChatColor.BOLD + "DyrtCraft");
-				e.setLine(3, "");
-				e.getPlayer().sendMessage(ChatColor.DARK_GREEN + "Pomyslnie utworzono tabliczke!");
-			}
-		}
+
+	@Override
+	public void onPluginMessageReceived(String channel, Player player, byte[] message) {
+		this.getLogger().info("Wyslano wiadomosc na kanale " + channel + " od " + player.getName() + " o tresci: " + message.toString());
 	}
 
 }

@@ -1,2 +1,4 @@
-emerald: true
-# Gdy gracz kliknie emerald otwiera mu się inv.
+wiadomosc-1: '&e Gracz {GRACZ} przeszedl na serwer {SERWER}.'
+nazwa-serwera: 'Lobby'
+xp-add:
+    dolaczenie-na-serwer: 10
