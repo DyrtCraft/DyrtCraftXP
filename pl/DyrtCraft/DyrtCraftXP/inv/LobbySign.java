@@ -27,6 +27,7 @@ public class LobbySign implements Listener {
 		if(e.getLine(0).equalsIgnoreCase("[Lobby]")) {
 			if(!(e.getPlayer().isOp())) {
 				e.setCancelled(true);
+				e.getBlock().breakNaturally();
 				e.getPlayer().sendMessage(ChatColor.RED + "Ojj, brak odpowiednich uprawnien!");
 			} else {
 				e.setLine(0, ChatColor.UNDERLINE + "LOBBY");

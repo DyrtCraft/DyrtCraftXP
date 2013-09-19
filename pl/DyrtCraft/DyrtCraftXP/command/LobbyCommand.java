@@ -27,6 +27,10 @@ PlayerQuitEvent playerQuitEvent;
 				p.sendMessage(ChatColor.RED + "Ojj, brak odpowiednich uprawnien!");
 				return true;
 			}*/
+			if(!(sender instanceof Player)) {
+				plugin.getLogger().warning("Nie mozesz wykonac tej komendy z poziomu konsoli!");
+				return true;
+			}
 			Bungee.connect(p, "Lobby", "lobby");
 			return true;
 		}

@@ -21,6 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Wool;
 
 import pl.DyrtCraft.DyrtCraftXP.Bungee;
+import pl.DyrtCraft.DyrtCraftXP.DyrtCraftPlugin;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
 
 public class TeleportInventory implements Listener {
@@ -40,7 +41,7 @@ public class TeleportInventory implements Listener {
 		hc = createItem(DyeColor.RED, ChatColor.RED + "Hardcore", "§bSpróbuj oryginalnego Apokaliptycznego hardcore'a!");
 		hs = createItem(DyeColor.GREEN, ChatColor.DARK_GREEN + "RPG", "§bRPG, frakcje i klasy!");
 		sb = createItem(DyeColor.GRAY, ChatColor.GRAY + "SkyBlock", "§bGotowy(a) na SkyBlock w kosmosie?");
-		sg = createItem(DyeColor.YELLOW, ChatColor.YELLOW + "§bSurvival Games", "§bSG z autorskimi mapami!");
+		sg = createItem(DyeColor.YELLOW, ChatColor.YELLOW + "Survival Games", "§bSG z autorskimi mapami!");
 		quit = createQuitItem("Serwer Lobby", "§bKliknij, aby powrócic na serwer Lobby");
 		
 		inne_ts = createItem("Nasz TeamSpeak 3", "§bdyrtcraft.pl");
@@ -60,14 +61,17 @@ public class TeleportInventory implements Listener {
 	
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
-		// Otwieranie inv po naciœniêciu na tabliczkê
-		if(!(e.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
-		if(e.getClickedBlock().getState() instanceof Sign) {
-			Sign s = (Sign) e.getClickedBlock().getState();
-			if(s.getLine(1).equalsIgnoreCase("Lista serwerów"))
-			if(s.getLine(2).equalsIgnoreCase(ChatColor.UNDERLINE + "" + ChatColor.BOLD + "DyrtCraft")) {
-				TeleportInventory.show(e.getPlayer());
+		try {// Otwieranie inv po naciœniêciu na tabliczkê
+			if(!(e.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
+			if(e.getClickedBlock().getState() instanceof Sign) {
+				Sign s = (Sign) e.getClickedBlock().getState();
+				if(s.getLine(1).equalsIgnoreCase("Lista serwerów"))
+				if(s.getLine(2).equalsIgnoreCase(ChatColor.UNDERLINE + "" + ChatColor.BOLD + "DyrtCraft")) {
+					TeleportInventory.show(e.getPlayer());
+				}
 			}
+		} catch(NullPointerException ex) {
+			DyrtCraftPlugin.sendMsgToOp("NullPointerException - pl.DyrtCraft.DyrtCraftXP.inv.TeleportInventory.onPlayerInteract()", 0);
 		}
 	}
 	
@@ -77,6 +81,7 @@ public class TeleportInventory implements Listener {
 		if(e.getLine(0).equalsIgnoreCase("[Servers]")) {
 			if(!(e.getPlayer().isOp())) {
 				e.setCancelled(true);
+				e.getBlock().breakNaturally();
 				e.getPlayer().sendMessage(ChatColor.RED + "Ojj, brak odpowiednich uprawnien!");
 			} else {
 				e.setLine(0, "");
@@ -104,6 +109,7 @@ public class TeleportInventory implements Listener {
 		ItemMeta im = i.getItemMeta();
 		im.setDisplayName(name);
 		im.setLore(Arrays.asList("Kliknij, aby przejsc na serwer.", name2));
+		//im.setLore(Arrays.asList(liczba aktualnych graczy na serwerze, "Kliknij, aby przejsc na serwer.", name2));
 		i.setItemMeta(im);
 		return i;
 	}
@@ -131,50 +137,54 @@ public class TeleportInventory implements Listener {
 	// Przy klikaniu w inv
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
-		Player p = (Player) e.getWhoClicked();
+		try {
+			Player p = (Player) e.getWhoClicked();
 		
-		if(!e.getInventory().getName().equalsIgnoreCase(inv.getName())) return;
-		// Hardcore
-		if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Hardcore")) {
-			e.setCancelled(true);
-			Bungee.connect(p, "Hardcore", "hardcore");
-			e.getWhoClicked().closeInventory();
-		}
-		// Heros
-		if(e.getCurrentItem().getItemMeta().getDisplayName().contains("RPG")) {
-			e.setCancelled(true);
-			Bungee.connect(p, "RPG", "rpg");
-			e.getWhoClicked().closeInventory();
-		}
-		// SkyBlock
-		if(e.getCurrentItem().getItemMeta().getDisplayName().contains("SkyBlock")) {
-			e.setCancelled(true);
-			Bungee.connect(p, "SkyBlock", "skyblock");
-			e.getWhoClicked().closeInventory();
-		}
-		// Survival Games
-		if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Survival Games")) {
-			e.setCancelled(true);
-			Bungee.connect(p, "Survival Games", "survivalgames");
-			e.getWhoClicked().closeInventory();
-		}
-		// Lobby
-		if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Serwer Lobby")) {
-			e.setCancelled(true);
-			Bungee.connect(p, "Lobby", "lobby");
-			e.getWhoClicked().closeInventory();
-		} else {
-			e.setCancelled(true);
-		}
-		
-		if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Nasz TeamSpeak 3")) {
-			e.setCancelled(true);
-		}
-		if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Nasza strona WWW")) {
-			e.setCancelled(true);
-		}
-		if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Nasze forum")) {
-			e.setCancelled(true);
+			if(!e.getInventory().getName().equalsIgnoreCase(inv.getName())) return;
+			// Hardcore
+			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Hardcore")) {
+				e.setCancelled(true);
+				Bungee.connect(p, "Hardcore", "hardcore");
+				e.getWhoClicked().closeInventory();
+			}
+			// Heros
+			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("RPG")) {
+				e.setCancelled(true);
+				Bungee.connect(p, "RPG", "rpg");
+				e.getWhoClicked().closeInventory();
+			}
+			// SkyBlock
+			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("SkyBlock")) {
+				e.setCancelled(true);
+				Bungee.connect(p, "SkyBlock", "skyblock");
+				e.getWhoClicked().closeInventory();
+			}
+			// Survival Games
+			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Survival Games")) {
+				e.setCancelled(true);
+				Bungee.connect(p, "Survival Games", "survivalgames");
+				e.getWhoClicked().closeInventory();
+			}
+			// Lobby
+			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Serwer Lobby")) {
+				e.setCancelled(true);
+				Bungee.connect(p, "Lobby", "lobby");
+				e.getWhoClicked().closeInventory();
+			} else {
+				e.setCancelled(true);
+			}
+			
+			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Nasz TeamSpeak 3")) {
+				e.setCancelled(true);
+			}
+			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Nasza strona WWW")) {
+				e.setCancelled(true);
+			}
+			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Nasze forum")) {
+				e.setCancelled(true);
+			}
+		} catch(NullPointerException ex) {
+			DyrtCraftPlugin.sendMsgToOp("NullPointerException - pl.DyrtCraft.DyrtCraftXP.inv.TeleportInventory.onPlayerClick()", 0);
 		}
 	}
 

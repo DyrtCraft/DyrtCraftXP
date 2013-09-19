@@ -1,5 +1,5 @@
 name: DyrtCraftXP
-version: Alpha 1.1.0
+version: Alpha 1.1.1
 website: http://dyrtcraft.pl/
 author: TheMolkaPL
 description: Plugin stworzony specjalnie dla DyrtCraft Network!
@@ -7,11 +7,18 @@ description: Plugin stworzony specjalnie dla DyrtCraft Network!
 main: pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP
 
 commands:
-    xp:
-        description: Pokaz poziom gracza
-        usage: /xp [gracz] [del|give|set] [liczba]
+    dcxp:
+        description: Komendy DyrtCraftXP
+        usage: /dcxp <inv|portals|reload|servers|version>
     lobby:
         description: Polacz sie z serwerem Lobby
         aliases: [hub]
         usage: /lobby
+    serwer:
+        description: Serwery DyrtCraft Network
+        aliases: [serwery, server, servers]
+        usage: /serwer <nazwa serwera>
+    xp:
+        description: Pokaz poziom gracza
+        usage: /xp [gracz] [create|del|give|set] [liczba]
 # Copyright © 2013 DyrtCraft Network All rights reserved.

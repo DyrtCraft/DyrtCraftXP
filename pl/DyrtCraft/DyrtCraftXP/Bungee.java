@@ -6,15 +6,13 @@ import java.io.IOException;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.messaging.PluginMessageListener;
 
-public class Bungee implements Listener{
+public class Bungee implements Listener, PluginMessageListener{
 
 	private static DyrtCraftXP pluginStatic;
-	private static PlayerQuitEvent playerQuitEvent;
 	
 	public Bungee(DyrtCraftXP dyrtCraftXP) {
 		pluginStatic=dyrtCraftXP;
@@ -28,22 +26,21 @@ public class Bungee implements Listener{
 	 * 
 	 * @param player Klient
 	 * @param serverName Nazwa serwera do wyswietlenia
-	 * @param serverAdress Nazwa serwera w Bungee (lower case)
+	 * @param serverAddress Nazwa serwera w Bungee (lower case)
 	 * 
 	 * @see Bungee#broadcastLeftMessage(PlayerQuitEvent, String)
+	 * @see Bungee#getOnlinePlayers(Player, String)
 	 */
-	public static void connect(Player player, String serverName, String serverAdress) {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		DataOutputStream dos = new DataOutputStream(baos);
-		player.sendMessage(ChatColor.GRAY + "Przelaczanie na serwer  " + ChatColor.GOLD + serverName + ChatColor.GRAY + "...");
+	public static void connect(Player player, String serverName, String serverAddress) {
+		ByteArrayOutputStream b = new ByteArrayOutputStream();
+		DataOutputStream out = new DataOutputStream(b);
+		player.sendMessage(ChatColor.GRAY + "Przelaczanie na serwer " + ChatColor.GOLD + serverName + ChatColor.GRAY + "...");
 		try {
-			dos.writeUTF("Connect");
-			dos.writeUTF(serverAdress);
-		} catch(IOException ex) {
-			player.sendMessage(ChatColor.RED + "Ten serwer jest chwilowo offline :(");
-		}
+			out.writeUTF("Connect");
+			out.writeUTF(serverAddress);
+		} catch(IOException ex) {}
 		//Bungee.broadcastLeftMessage(playerQuitEvent, player, serverName);
-		player.sendPluginMessage(pluginStatic, "BungeeCord", baos.toByteArray());
+		player.sendPluginMessage(pluginStatic, "BungeeCord", b.toByteArray());
 	}
 	
 	/**
@@ -68,6 +65,58 @@ public class Bungee implements Listener{
 		
 		event.setQuitMessage(msg);
 		pluginStatic.getLogger().log(null, event.getQuitMessage());
+	}*/
+	
+	@Override
+	public void onPluginMessageReceived(String arg0, Player arg1, byte[] arg2) {}
+	
+	/**
+	 * Pobierz liczbe klientow na serwerze serverAddress
+	 * 
+	 * @author TheMolkaPL
+	 * @since Alpha 1.1.1
+	 * 
+	 * @param player Klient
+	 * @param serverAddress Nazwa serwera w Bungee (lower case)
+	 * @return
+	 * 
+	 * @see Bungee#connect(Player, String, String)
+	 */
+	/*public static int getOnlinePlayers(Player player, String serverAddress) {
+		ByteArrayOutputStream b = new ByteArrayOutputStream();
+		DataOutputStream out = new DataOutputStream(b);
+		DataInputStream in = new DataInputStream(in));
+		
+		try {
+			out.writeUTF("PlayerCount");
+			out.writeUTF(serverAddress);
+		} catch(IOException ex) {}
+		player.sendPluginMessage(pluginStatic, "BungeeCord", b.toByteArray());
+		
+		String server = in.readUTF();
+		int playercount = in.readInt();
+		
+		return playercount;
+	}
+
+	@Override
+	public void onPluginMessageReceived(String channel, Player player, byte[] message) {
+		plugin.getLogger().info("Otrzymano wiadomosc na kanale " + channel + " od " + player.getName() + " o tresci: " + message.toString());
+	
+		if (!(channel.equals("BungeeCord"))) {
+			return;
+		}
+		DataInputStream in = new DataInputStream(new ByteArrayInputStream(b));
+		String subchannel;
+		try {
+			subchannel = in.readUTF();
+			if(subchannel.equals("PlayerCount")) {
+				String server = in.readUTF();
+				int count = in.readInt();
+			}
+		} catch(IOException ex) {
+			ex.printStackTrace();
+		}
 	}*/
 	
 }
