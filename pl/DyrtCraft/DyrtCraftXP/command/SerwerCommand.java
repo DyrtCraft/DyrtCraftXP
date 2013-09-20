@@ -40,7 +40,7 @@ public class SerwerCommand implements CommandExecutor {
 					}
 					return true;
 				}
-				if(args[0].equals(listaSerwerow)) {
+				if(listaSerwerow.equals(args[0])) {
 					Player p = (Player) sender;
 					String serverAddress = plugin.getConfig().getString(args[0]);
 					

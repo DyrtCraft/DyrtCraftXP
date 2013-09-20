@@ -40,7 +40,7 @@ public class Select implements Listener {
 				} else {}
 			}
 		} catch(NullPointerException ex) {
-			DyrtCraftPlugin.sendMsgToOp("NullPointerException - pl.DyrtCraft.DyrtCraftXP.inv.Select.onPlayerInteract()", 0);
+			//DyrtCraftPlugin.sendMsgToOp("NullPointerException - pl.DyrtCraft.DyrtCraftXP.inv.Select.onPlayerInteract()", 0);
 		}
 	}
 	

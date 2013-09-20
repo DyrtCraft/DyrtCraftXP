@@ -102,6 +102,7 @@ public class DcxpCommand implements CommandExecutor {
 						List<String> lista = plugin.getConfig().getStringList("lista-serwerow");
 						
 						sender.sendMessage(ChatColor.GOLD + "Lista dostepnych obecnie serwerów:");
+						
 						for(String l : lista) {
 							sender.sendMessage(l);
 						}
@@ -122,6 +123,7 @@ public class DcxpCommand implements CommandExecutor {
 							
 							plugin.getPortale().set(serverName, null);
 							plugin.savePortals();
+							DyrtCraftPlugin.sendMsgToOp(sender.getName() + " usunal portal na serwer " + serverName, 0);
 							return true;
 						} else {
 							sender.sendMessage(ChatColor.RED + "Nie znaleziono portalu o nazwie \"" + serverName + "\"!");
@@ -143,6 +145,7 @@ public class DcxpCommand implements CommandExecutor {
 							plugin.getConfig().set("serwery." + serverName, null);
 							plugin.saveConfig();
 							sender.sendMessage(ChatColor.DARK_GREEN + "Pomyslnie usunieto serwer " + serverName);
+							DyrtCraftPlugin.sendMsgToOp(sender.getName() + " usunal serwer " + serverName, 0);
 							return true;
 						} else {
 							sender.sendMessage(ChatColor.RED + "Nie znaleziono serwera o nazwie \"" + serverName + "\"!");
@@ -173,6 +176,7 @@ public class DcxpCommand implements CommandExecutor {
 						plugin.getPortale().set(serverName + "2.y", null);
 						plugin.getPortale().set(serverName + "2.z", null);
 						plugin.savePortals();
+						DyrtCraftPlugin.sendMsgToOp(sender.getName() + " utworzyl portal do serwera " + serverName, 0);
 						return true;
 					} else {
 						return erPortalsArg(sender);
@@ -189,6 +193,7 @@ public class DcxpCommand implements CommandExecutor {
 						plugin.saveConfig();
 						
 						sender.sendMessage(ChatColor.DARK_GREEN + "Pomyslnie utworzono serwer " + serverName + " o adresie BungeeCord " + serverAddress);
+						DyrtCraftPlugin.sendMsgToOp(sender.getName() + " utworzyl serwer " + serverName, 0);
 						return true;
 					}
 					return erServersArg(sender);
