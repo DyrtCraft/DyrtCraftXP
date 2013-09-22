@@ -8,16 +8,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
-import pl.DyrtCraft.DyrtCraftXP.sql.Database;
+import pl.DyrtCraft.DyrtCraftXP.api.XP;
 
 public class XpCommand implements CommandExecutor {
-
-	private DyrtCraftXP plugin;
-	private Database db;
 	
-	public XpCommand(DyrtCraftXP dyrtCraftXP) {
-		plugin=dyrtCraftXP;
-	}
+	public XpCommand(DyrtCraftXP dyrtCraftXP) {}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,String label, String[] args) {
@@ -29,7 +24,7 @@ public class XpCommand implements CommandExecutor {
 					Bukkit.getLogger().warning("Nie mozesz wykonywac tego polecenia z poziomu konsoli!");
 					return true;
 				}
-				db.showXp(p);
+				XP.showXp(p);
 				return true;
 			}
 			if(args.length==1) {
@@ -39,7 +34,7 @@ public class XpCommand implements CommandExecutor {
 		        	sender.sendMessage(ChatColor.RED + "Gracz " + args[0] + " nie jest obecnie na serwerze!");
 		        	return true;
 		        }
-		        db.showXp(gracz);
+		        XP.showXp(gracz);
 		        return true;
 			} else {
 				sender.sendMessage(ChatColor.RED + "/xp [gracz]");

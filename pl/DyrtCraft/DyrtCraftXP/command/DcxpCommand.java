@@ -70,12 +70,12 @@ public class DcxpCommand implements CommandExecutor {
 					
 					// portale.yml
 					try {
-						plugin.reloadPortals();
+						//plugin.reloadPortals();
 					} catch(YAMLException ex) {
 						DyrtCraftPlugin.sendMsgToOp("Nastapil blad z plikiem portale.yml (YAMLException)", 1);
 					} catch(Exception ex) {
 						DyrtCraftPlugin.sendMsgToOp("Nastapil blad z plikiem portale.yml (Nie znaleziono pliku). Tworzenie 1 pliku dla Ciebie w folderze", 1);
-						plugin.saveDefaultPortals();
+						//plugin.saveDefaultPortals();
 					}
 					sender.sendMessage(ChatColor.DARK_GREEN + "Pomyslnie przeladowano plik portale.yml!");
 					return true;
@@ -89,10 +89,10 @@ public class DcxpCommand implements CommandExecutor {
 			if(args.length==2) {
 				if(args[0].equalsIgnoreCase("portals")) {
 					if(args[1].equalsIgnoreCase("manage")) {
-						List<String> lista = plugin.getPortale().getStringList("lista-portali");
-						for(String l : lista) {
-							sender.sendMessage(l);
-						}
+						//List<String> lista = plugin.getPortale().getStringList("lista-portali");
+						//for(String l : lista) {
+							//sender.sendMessage(l);
+						//}
 						return true;
 					}
 					return erPortalsArg(sender);
@@ -118,7 +118,7 @@ public class DcxpCommand implements CommandExecutor {
 					if(args[1].equalsIgnoreCase("delete")) {
 						String serverName = args[2];
 						
-						if(plugin.getPortale().getStringList("lista-portali").equals(serverName)) {
+						/*if(plugin.getPortale().getStringList("lista-portali").equals(serverName)) {
 							plugin.getPortale().getStringList("lista-portali").remove(serverName);
 							
 							plugin.getPortale().set(serverName, null);
@@ -128,7 +128,7 @@ public class DcxpCommand implements CommandExecutor {
 						} else {
 							sender.sendMessage(ChatColor.RED + "Nie znaleziono portalu o nazwie \"" + serverName + "\"!");
 							return true;
-						}
+						}*/
 					}
 					return erPortalsArg(sender);
 				}
@@ -163,7 +163,7 @@ public class DcxpCommand implements CommandExecutor {
 						String serverName = args[2];
 						String serverAddress = args[3];
 						
-						plugin.getPortale().getStringList("lista-portali").add(serverName);
+						/*plugin.getPortale().getStringList("lista-portali").add(serverName);
 						
 						//TODO
 						plugin.getPortale().set(serverName + ".address", serverAddress);
@@ -176,7 +176,7 @@ public class DcxpCommand implements CommandExecutor {
 						plugin.getPortale().set(serverName + "2.y", null);
 						plugin.getPortale().set(serverName + "2.z", null);
 						plugin.savePortals();
-						DyrtCraftPlugin.sendMsgToOp(sender.getName() + " utworzyl portal do serwera " + serverName, 0);
+						DyrtCraftPlugin.sendMsgToOp(sender.getName() + " utworzyl portal do serwera " + serverName, 0);*/
 						return true;
 					} else {
 						return erPortalsArg(sender);

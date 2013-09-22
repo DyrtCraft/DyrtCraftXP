@@ -1,14 +1,10 @@
 package pl.DyrtCraft.DyrtCraftXP;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,8 +22,8 @@ public class DyrtCraftXP extends JavaPlugin implements Plugin {
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		
 		saveDefaultConfig();
-		saveDefaultPortals();
-
+		//saveDefaultPortals();
+		
 		getCommand("xp").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.XpCommand(this));
 		
 		getCommand("dcxp").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.DcxpCommand(this));
@@ -35,6 +31,7 @@ public class DyrtCraftXP extends JavaPlugin implements Plugin {
 		getCommand("serwer").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.SerwerCommand(this));
 		
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.Bungee(this), this);
+		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.ShopSign(this), this);
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.LobbySign(this), this);
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.Portals(this), this);
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.Select(this), this);
@@ -47,7 +44,8 @@ public class DyrtCraftXP extends JavaPlugin implements Plugin {
 		saveConfig();
 	}
 	
-	public FileConfiguration getPortale() {
+	/* ========== Work in progress :D ========== */
+	/*public FileConfiguration getPortale() {
 		return portale2;
 	}
 	
@@ -78,8 +76,8 @@ public class DyrtCraftXP extends JavaPlugin implements Plugin {
 		try {
 			.save(portale1);
 		} catch (IOException ex) {
-			getLogger().log(Level.SEVERE, "Nie moge odnalesc  " + portale1, ex);
+			getLogger().log(Level.SEVERE, "Nie mozna odnalesc  " + portale1, ex);
 		}
-	}
+	}*/
 
 }
