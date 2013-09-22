@@ -9,8 +9,8 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import pl.DyrtCraft.DyrtCraftXP.Bungee;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
+import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
 
 public class LobbySign implements Listener {
 

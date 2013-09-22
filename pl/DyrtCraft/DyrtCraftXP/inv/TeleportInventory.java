@@ -20,9 +20,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Wool;
 
-import pl.DyrtCraft.DyrtCraftXP.Bungee;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftPlugin;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
+import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
 
 public class TeleportInventory implements Listener {
 

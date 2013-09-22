@@ -6,8 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import pl.DyrtCraft.DyrtCraftXP.Bungee;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
+import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
 
 public class LobbyCommand implements CommandExecutor {
 

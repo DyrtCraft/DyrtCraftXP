@@ -8,7 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import pl.DyrtCraft.DyrtCraftXP.DyrtCraftPlugin;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
 
 public class Select implements Listener {
@@ -29,6 +28,7 @@ public class Select implements Listener {
 					e.setCancelled(true);
 					e.getPlayer().sendMessage(ChatColor.LIGHT_PURPLE + "Pierwsza pozycja zaznaczona na " +
 					"x:" + a.getBlockX() + ", y:" + a.getBlockY() + ", z:" + a.getZ() + "");
+					setFirstSelect(a.getX(), a.getY(), a.getZ());
 				}
 				
 				// Druga pozycja
@@ -37,11 +37,10 @@ public class Select implements Listener {
 					e.setCancelled(true);
 					e.getPlayer().sendMessage(ChatColor.LIGHT_PURPLE + "Druga pozycja zaznaczona na " +
 					"x:" + b.getBlockX() + ", y:" + b.getBlockY() + ", z:" + b.getZ() + "");
+					setSecondSelect(b.getX(), b.getY(), b.getZ());
 				} else {}
 			}
-		} catch(NullPointerException ex) {
-			//DyrtCraftPlugin.sendMsgToOp("NullPointerException - pl.DyrtCraft.DyrtCraftXP.inv.Select.onPlayerInteract()", 0);
-		}
+		} catch(NullPointerException ex) {}
 	}
 	
 	public static Location getFirstSelect() {
@@ -50,5 +49,18 @@ public class Select implements Listener {
 	
 	public static Location getSecondSelect() {
 		return null;
+	}
+	
+	public static void setFirstSelect(double x, double y, double z) {
+		getFirstSelect().setX(x);
+		getFirstSelect().setY(y);
+		getFirstSelect().setZ(z);
+	}
+	
+	public static void setSecondSelect(double x, double y, double z) {
+		getSecondSelect().setX(x);
+		getSecondSelect().setY(y);
+		getSecondSelect().setZ(z);
+		
 	}
 }

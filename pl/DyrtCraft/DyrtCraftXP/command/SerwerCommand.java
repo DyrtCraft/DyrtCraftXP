@@ -8,8 +8,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import pl.DyrtCraft.DyrtCraftXP.Bungee;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
+import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
 
 public class SerwerCommand implements CommandExecutor {
 

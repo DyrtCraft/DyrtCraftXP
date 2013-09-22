@@ -8,6 +8,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
+
 public class DyrtCraftXP extends JavaPlugin implements Plugin {
 	
 	public Map<String, String> portalData = new HashMap<String, String>();
@@ -30,7 +32,7 @@ public class DyrtCraftXP extends JavaPlugin implements Plugin {
 		getCommand("lobby").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.LobbyCommand(this));
 		getCommand("serwer").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.SerwerCommand(this));
 		
-		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.Bungee(this), this);
+		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.api.Bungee(this), this);
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.ShopSign(this), this);
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.LobbySign(this), this);
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.Portals(this), this);

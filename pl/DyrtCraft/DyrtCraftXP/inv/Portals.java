@@ -9,8 +9,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import pl.DyrtCraft.DyrtCraftXP.Bungee;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
+import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
 
 public class Portals implements Listener {
 
