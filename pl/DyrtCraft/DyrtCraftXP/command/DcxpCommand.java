@@ -89,10 +89,10 @@ public class DcxpCommand implements CommandExecutor {
 			if(args.length==2) {
 				if(args[0].equalsIgnoreCase("portals")) {
 					if(args[1].equalsIgnoreCase("manage")) {
-						//List<String> lista = plugin.getPortale().getStringList("lista-portali");
-						//for(String l : lista) {
-							//sender.sendMessage(l);
-						//}
+						List<String> lista = plugin.getConfig().getStringList("lista-portali");
+						for(String l : lista) {
+							sender.sendMessage(l);
+						}
 						return true;
 					}
 					return erPortalsArg(sender);
@@ -118,17 +118,17 @@ public class DcxpCommand implements CommandExecutor {
 					if(args[1].equalsIgnoreCase("delete")) {
 						String serverName = args[2];
 						
-						/*if(plugin.getPortale().getStringList("lista-portali").equals(serverName)) {
-							plugin.getPortale().getStringList("lista-portali").remove(serverName);
+						if(plugin.getConfig().getStringList("lista-portali").equals(serverName)) {
+							plugin.getConfig().getStringList("lista-portali").remove(serverName);
 							
-							plugin.getPortale().set(serverName, null);
-							plugin.savePortals();
+							plugin.getConfig().set(serverName, null);
+							plugin.saveConfig();
 							DyrtCraftPlugin.sendMsgToOp(sender.getName() + " usunal portal na serwer " + serverName, 0);
 							return true;
 						} else {
 							sender.sendMessage(ChatColor.RED + "Nie znaleziono portalu o nazwie \"" + serverName + "\"!");
 							return true;
-						}*/
+						}
 					}
 					return erPortalsArg(sender);
 				}
@@ -163,20 +163,20 @@ public class DcxpCommand implements CommandExecutor {
 						String serverName = args[2];
 						String serverAddress = args[3];
 						
-						/*plugin.getPortale().getStringList("lista-portali").add(serverName);
+						plugin.getConfig().getStringList("lista-portali").add(serverName);
 						
 						//TODO
-						plugin.getPortale().set(serverName + ".address", serverAddress);
+						plugin.getConfig().set("portale." + serverName + ".address", serverAddress);
 						
-						plugin.getPortale().set(serverName + "1.x", null);
-						plugin.getPortale().set(serverName + "1.y", null);
-						plugin.getPortale().set(serverName + "1.z", null);
+						plugin.getConfig().set("portale." + serverName + "1.x", null);
+						plugin.getConfig().set("portale." + serverName + "1.y", null);
+						plugin.getConfig().set("portale." + serverName + "1.z", null);
 						
-						plugin.getPortale().set(serverName + "2.x", null);
-						plugin.getPortale().set(serverName + "2.y", null);
-						plugin.getPortale().set(serverName + "2.z", null);
-						plugin.savePortals();
-						DyrtCraftPlugin.sendMsgToOp(sender.getName() + " utworzyl portal do serwera " + serverName, 0);*/
+						plugin.getConfig().set("portale." + serverName + "2.x", null);
+						plugin.getConfig().set("portale." + serverName + "2.y", null);
+						plugin.getConfig().set("portale." + serverName + "2.z", null);
+						plugin.saveConfig();
+						DyrtCraftPlugin.sendMsgToOp(sender.getName() + " utworzyl portal do serwera " + serverName, 0);
 						return true;
 					} else {
 						return erPortalsArg(sender);
@@ -214,9 +214,10 @@ public class DcxpCommand implements CommandExecutor {
 	
 	protected boolean erPortalsArg(CommandSender sender) {
 		sender.sendMessage(ChatColor.GOLD + "========== Pomoc ==========");
-		sender.sendMessage(ChatColor.RED + "/dcxp portals create <nazwaSerwera> <adresSerwera>");
+		sender.sendMessage(ChatColor.RED + "/dcxp portals create <nazwaSerwera>");
 		sender.sendMessage(ChatColor.RED + "/dcxp portals delete <nazwaSerwera>");
 		sender.sendMessage(ChatColor.RED + "/dcxp portals manage");
+		sender.sendMessage(ChatColor.RED + "Wazne: Aby stworzyc portal na serwer, musi byc on dostepny pod /dcxp server manage");
 		return true;
 	}
 	

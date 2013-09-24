@@ -42,7 +42,7 @@ public class SerwerCommand implements CommandExecutor {
 				}
 				if(listaSerwerow.equals(args[0])) {
 					Player p = (Player) sender;
-					String serverAddress = plugin.getConfig().getString(args[0]);
+					String serverAddress = plugin.getConfig().getString("serwery" + args[0]);
 					
 					Bungee.connect(p, args[0], serverAddress);
 					return true;

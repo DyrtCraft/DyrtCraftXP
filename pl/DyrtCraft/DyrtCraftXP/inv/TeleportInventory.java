@@ -20,9 +20,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Wool;
 
-import pl.DyrtCraft.DyrtCraftXP.DyrtCraftPlugin;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
 import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
+import pl.DyrtCraft.DyrtCraftXP.api.BungeeInventory;
 
 public class TeleportInventory implements Listener {
 
@@ -31,32 +31,50 @@ public class TeleportInventory implements Listener {
 	static DyrtCraftXP pluginStatic;
 	
 	private static Inventory inv;
-	private ItemStack hc, hs, sb, sg, quit, inne_ts, inne_www, inne_forum;
+	private ItemStack hc, mz, rpg, sb, sg, quit, minigames, inne, inne_ts, inne_www, inne_forum;
 	
 	public TeleportInventory(DyrtCraftXP dyrtCraftXP) {
 		plugin=dyrtCraftXP;
 		
-		inv = Bukkit.getServer().createInventory(null, 18, ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "DyrtCraft" + ChatColor.DARK_GRAY + " Wybierz serwer:");
+		inv = Bukkit.getServer().createInventory(null, 27, ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "DyrtCraft" + ChatColor.DARK_GRAY + " Wybierz serwer:");
 		
 		hc = createItem(DyeColor.RED, ChatColor.RED + "Hardcore", "§bSpróbuj oryginalnego Apokaliptycznego hardcore'a!");
-		hs = createItem(DyeColor.GREEN, ChatColor.DARK_GREEN + "RPG", "§bRPG, frakcje i klasy!");
+		mz = createItem(DyeColor.GREEN, ChatColor.DARK_GREEN + "MineZ", "§bPrzetrwaj plage zombie!");
+		rpg = createItem(DyeColor.BLUE, ChatColor.BLUE + "RPG", "§1RPG, frakcje i klasy!");
 		sb = createItem(DyeColor.GRAY, ChatColor.GRAY + "SkyBlock", "§bGotowy(a) na SkyBlock w kosmosie?");
 		sg = createItem(DyeColor.YELLOW, ChatColor.YELLOW + "Survival Games", "§bSG z autorskimi mapami!");
-		quit = createQuitItem("Serwer Lobby", "§bKliknij, aby powrócic na serwer Lobby");
 		
+		quit = createQuitItem("Serwer Lobby", "§bKliknij, aby powrócic na serwer Lobby");
+		minigames = createItem(Material.FIRE, "MiniGames", "§7Serwery MiniGames");
+		inne = createItem(Material.FIRE, "Inne serwery", "§7Inne serwery");
 		inne_ts = createItem("Nasz TeamSpeak 3", "§bdyrtcraft.pl");
 		inne_www = createItem("Nasza strona WWW", "§bhttp://dyrtcraft.pl");
 		inne_forum = createItem("Nasze forum", "§bhttp://dyrtcraft.pl/forum");
 		
-		inv.setItem(1, hc);
-		inv.setItem(3, hs);
-		inv.setItem(5, sb);
-		inv.setItem(7, sg);
-		inv.setItem(17, quit);
+		/*
+		 * | 00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 |
+		 * | 09 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 |
+		 * | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 |
+		 */
 		
-		inv.setItem(9, inne_ts);
-		inv.setItem(10, inne_www);
-		inv.setItem(11, inne_forum);
+		// Inne serwery
+		inv.setItem(0, inne);
+		inv.setItem(1, hc);
+		inv.setItem(2, rpg);
+		inv.setItem(3, sb);
+		
+		// MiniGames
+		inv.setItem(9, minigames);
+		inv.setItem(10, mz);
+		inv.setItem(11, sg);
+		
+		// Inne itemy
+		inv.setItem(18, inne_ts);
+		inv.setItem(19, inne_www);
+		inv.setItem(20, inne_forum);
+		
+		// Lobby
+		inv.setItem(26, quit);
 	}
 	
 	@EventHandler
@@ -67,12 +85,10 @@ public class TeleportInventory implements Listener {
 				Sign s = (Sign) e.getClickedBlock().getState();
 				if(s.getLine(1).equalsIgnoreCase("Lista serwerów"))
 				if(s.getLine(2).equalsIgnoreCase(ChatColor.UNDERLINE + "" + ChatColor.BOLD + "DyrtCraft")) {
-					TeleportInventory.show(e.getPlayer());
+					BungeeInventory.showInventory(e.getPlayer());
 				}
 			}
-		} catch(NullPointerException ex) {
-			DyrtCraftPlugin.sendMsgToOp("NullPointerException - pl.DyrtCraft.DyrtCraftXP.inv.TeleportInventory.onPlayerInteract()", 0);
-		}
+		} catch(NullPointerException ex) {}
 	}
 	
 	@EventHandler
@@ -114,6 +130,16 @@ public class TeleportInventory implements Listener {
 		return i;
 	}
 	
+	// Gwaizda(?)
+	private ItemStack createItem(Material material, String name, String name2) {
+		ItemStack i = new ItemStack(material);
+		ItemMeta im = i.getItemMeta();
+		im.setDisplayName(name);
+		im.setLore(Arrays.asList(name2));
+		i.setItemMeta(im);
+		return i;
+	}
+	
 	// Per³a endermana (teleport do lobby)
 	private ItemStack createQuitItem(String name, String name2) {
 		ItemStack q = new ItemStack(Material.EYE_OF_ENDER);
@@ -126,9 +152,10 @@ public class TeleportInventory implements Listener {
 	}
 	
 	/**
-	 * Poka¿ okno inventory
+	 * Czesc, to jest stare wyswietlanie Inventory!
+	 * Zalecane jest uzycie tego API: {@link BungeeInventory#showInventory(Player)}
 	 * 
-	 * @param p
+	 * @param player Gracz
 	 */
 	public static void show(Player player) {
 		player.openInventory(inv);
@@ -145,6 +172,12 @@ public class TeleportInventory implements Listener {
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Hardcore")) {
 				e.setCancelled(true);
 				Bungee.connect(p, "Hardcore", "hardcore");
+				e.getWhoClicked().closeInventory();
+			}
+			// MineZ
+			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("MineZ")) {
+				e.setCancelled(true);
+				Bungee.connect(p, "MineZ", "minez");
 				e.getWhoClicked().closeInventory();
 			}
 			// Heros
@@ -171,21 +204,10 @@ public class TeleportInventory implements Listener {
 				Bungee.connect(p, "Lobby", "lobby");
 				e.getWhoClicked().closeInventory();
 			} else {
+				// W kazdym inny przypadku
 				e.setCancelled(true);
 			}
-			
-			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Nasz TeamSpeak 3")) {
-				e.setCancelled(true);
-			}
-			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Nasza strona WWW")) {
-				e.setCancelled(true);
-			}
-			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Nasze forum")) {
-				e.setCancelled(true);
-			}
-		} catch(NullPointerException ex) {
-			DyrtCraftPlugin.sendMsgToOp("NullPointerException - pl.DyrtCraft.DyrtCraftXP.inv.TeleportInventory.onPlayerClick()", 0);
-		}
+		} catch(NullPointerException ex) {}
 	}
 
 }

@@ -1,11 +1,9 @@
-package pl.DyrtCraft.DyrtCraftXP.sql;
+package pl.DyrtCraft.DyrtCraftXP;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import pl.DyrtCraft.DyrtCraftXP.DyrtCraftPlugin;
-import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
 
 public class MySQL {
 
