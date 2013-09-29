@@ -36,7 +36,7 @@ public class XP {
 	public static void showXp(Player player) {
 		//int xp1 = get SQL
 		Object xp1 = null; // Do usuniecia
-		player.sendMessage(ChatColor.LIGHT_PURPLE + "Twoja aktualna ilosc XP to " + xp1 + ".");
+		player.sendMessage(ChatColor.LIGHT_PURPLE + "Aktualna ilosc XP gracza " + player + " to " + xp1 + ".");
 	}
 	
 }

@@ -2,5 +2,3 @@ wiadomosc-1: '&e Gracz {GRACZ} przeszedl na serwer {SERWER}.'
 nazwa-serwera: 'null'
 lista-portali:
 portale:
-lista-serwerow:
-serwery:

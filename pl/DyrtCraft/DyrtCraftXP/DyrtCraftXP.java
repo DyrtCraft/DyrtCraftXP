@@ -1,85 +1,57 @@
 package pl.DyrtCraft.DyrtCraftXP;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
 
-public class DyrtCraftXP extends JavaPlugin implements Plugin {
+public class DyrtCraftXP extends JavaPlugin {
 	
-	public Map<String, String> portalData = new HashMap<String, String>();
-	protected File portale1 = null;
-	protected FileConfiguration portale2 = null;
+	static DyrtCraftXP instance;
+	String authors = "TheMolkaPL";
+	String version = "Alpha 1.1.5";
 	
+	@Override
 	public void onEnable() {
-		
-		getLogger().info("Wlaczanie DyrtCraftXP v" + getDescription().getVersion() + " by " + getDescription().getAuthors() + "...");
+		getLogger().info("Ladowanie DyrtCraftXP v" + getDescription().getVersion() + " by " + getDescription().getAuthors() + "...");
 		
 		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new Bungee(this));
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		
 		saveDefaultConfig();
-		//saveDefaultPortals();
 		
-		getCommand("xp").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.XpCommand(this));
+		registerCommands();
+		registerListeners();
 		
-		getCommand("dcxp").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.DcxpCommand(this));
-		getCommand("lobby").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.LobbyCommand(this));
-		getCommand("serwer").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.SerwerCommand(this));
-		
-		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.api.Bungee(this), this);
-		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.ShopSign(this), this);
-		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.LobbySign(this), this);
-		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.Portals(this), this);
-		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.Select(this), this);
-		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.TeleportInventory(this), this);
-		
-		//getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.sql.XP(this), this);
+		getLogger().info("Zaladowano DyrtCraftXP wersja " + getDescription().getVersion());
 	}
 	
+	@Override
 	public void onDisable() {
 		saveConfig();
 	}
 	
-	/* ========== Work in progress :D ========== */
-	/*public FileConfiguration getPortale() {
-		return portale2;
+	public String getAuthors() {
+		return authors;
 	}
 	
-	public void reloadPortals() {
-		if(portale1 == null) {
-			portale1 = new File(getDataFolder(), "portale.yml");
-		}
-		portale2 = YamlConfiguration.loadConfiguration(portale1);
-		InputStream defConfigStream = getResource("portale.yml");
-		
-		if (defConfigStream != null) {
-			YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-			portale2.setDefaults(defConfig);
-		}
+	public static DyrtCraftXP getInstance() {
+		return instance;
 	}
 	
-	public void saveDefaultPortals() {
-		if(portale1 == null) {
-			portale1 = new File(getDataFolder(), "portale.yml");
-		} else {
-			((Plugin) portale1).saveResource("portale.yml", false);
-		}
+	public String getVersion() {
+		return version;
 	}
 	
-	public void savePortals() {
-		if((portale2 == null) || (portale1 == null))
-			return;
-		try {
-			.save(portale1);
-		} catch (IOException ex) {
-			getLogger().log(Level.SEVERE, "Nie mozna odnalesc  " + portale1, ex);
-		}
-	}*/
+	public void registerCommands() {
+		getCommand("dcxp").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.DcxpCommand(this));
+		getCommand("lobby").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.LobbyCommand(this));
+		getCommand("xp").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.XpCommand(this));
+	}
+	
+	public void registerListeners() {
+		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.api.Bungee(this), this);
+		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.LobbySign(this), this);
+		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.TeleportInventory(this), this);
+	}
 
 }

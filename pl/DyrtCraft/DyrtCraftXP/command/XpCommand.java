@@ -18,12 +18,11 @@ public class XpCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command,String label, String[] args) {
 		if(label.equalsIgnoreCase("xp")) {
 			if(args.length==0) {
-				Player p = (Player) sender;
-				
-				if(sender instanceof Player) {
+				if(!(sender instanceof Player)) {
 					Bukkit.getLogger().warning("Nie mozesz wykonywac tego polecenia z poziomu konsoli!");
 					return true;
 				}
+				Player p = (Player) sender;
 				XP.showXp(p);
 				return true;
 			}

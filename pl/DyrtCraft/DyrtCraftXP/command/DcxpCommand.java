@@ -11,7 +11,7 @@ import org.yaml.snakeyaml.error.YAMLException;
 
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftPlugin;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
-import pl.DyrtCraft.DyrtCraftXP.inv.TeleportInventory;
+import pl.DyrtCraft.DyrtCraftXP.api.BungeeInventory;
 
 public class DcxpCommand implements CommandExecutor {
 
@@ -23,8 +23,6 @@ public class DcxpCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,String label, String[] args) {		
-		Player p = (Player) sender;
-		
 		if(label.equalsIgnoreCase("dcxp")) {
 			if(args.length==0) {
 				return erArg(sender, "Nie podano zadnego argumentu!");
@@ -45,8 +43,9 @@ public class DcxpCommand implements CommandExecutor {
 						plugin.getLogger().warning("Nie mozesz wykonac tej komendy z poziomu konsoli!");
 						return true;
 					}
-					sender.sendMessage(ChatColor.GRAY + "Otwieranie inv z teleportami...");
-					TeleportInventory.show(p);
+					Player p = (Player) sender;
+					p.sendMessage(ChatColor.GRAY + "Otwieranie inv z teleportami...");
+					BungeeInventory.showInventory(p);
 					return true;
 				}
 				if(args[0].equalsIgnoreCase("portals")) {

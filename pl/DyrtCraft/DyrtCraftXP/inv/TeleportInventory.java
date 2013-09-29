@@ -40,7 +40,7 @@ public class TeleportInventory implements Listener {
 		
 		hc = createItem(DyeColor.RED, ChatColor.RED + "Hardcore", "§bSpróbuj oryginalnego Apokaliptycznego hardcore'a!");
 		mz = createItem(DyeColor.GREEN, ChatColor.DARK_GREEN + "MineZ", "§bPrzetrwaj plage zombie!");
-		rpg = createItem(DyeColor.BLUE, ChatColor.BLUE + "RPG", "§1RPG, frakcje i klasy!");
+		rpg = createItem(DyeColor.BLUE, ChatColor.BLUE + "RPG", "§1RPG, frakcje i klasy");
 		sb = createItem(DyeColor.GRAY, ChatColor.GRAY + "SkyBlock", "§bGotowy(a) na SkyBlock w kosmosie?");
 		sg = createItem(DyeColor.YELLOW, ChatColor.YELLOW + "Survival Games", "§bSG z autorskimi mapami!");
 		
@@ -120,12 +120,11 @@ public class TeleportInventory implements Listener {
 	}
 	
 	// We³na
-	private ItemStack createItem(DyeColor dc, String name, String name2) {
+	private ItemStack createItem(DyeColor dc, String name, String description) {
 		ItemStack i = new Wool(dc).toItemStack(1);
 		ItemMeta im = i.getItemMeta();
 		im.setDisplayName(name);
-		im.setLore(Arrays.asList("Kliknij, aby przejsc na serwer.", name2));
-		//im.setLore(Arrays.asList(liczba aktualnych graczy na serwerze, "Kliknij, aby przejsc na serwer.", name2));
+		im.setLore(Arrays.asList("Kliknij, aby przejsc na serwer.", description));
 		i.setItemMeta(im);
 		return i;
 	}
