@@ -38,18 +38,18 @@ public class TeleportInventory implements Listener {
 		
 		inv = Bukkit.getServer().createInventory(null, 27, ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "DyrtCraft" + ChatColor.DARK_GRAY + " Wybierz serwer:");
 		
-		hc = createItem(DyeColor.RED, ChatColor.RED + "Hardcore", "§bSpróbuj oryginalnego Apokaliptycznego hardcore'a!");
-		mz = createItem(DyeColor.GREEN, ChatColor.DARK_GREEN + "MineZ", "§bPrzetrwaj plage zombie!");
-		rpg = createItem(DyeColor.BLUE, ChatColor.BLUE + "RPG", "§1RPG, frakcje i klasy");
-		sb = createItem(DyeColor.GRAY, ChatColor.GRAY + "SkyBlock", "§bGotowy(a) na SkyBlock w kosmosie?");
-		sg = createItem(DyeColor.YELLOW, ChatColor.YELLOW + "Survival Games", "§bSG z autorskimi mapami!");
+		hc = createItem(DyeColor.RED, ChatColor.RED + "Hardcore", "Â§bSprÃ³buj oryginalnego Apokaliptycznego hardcore'a!");
+		mz = createItem(DyeColor.GREEN, ChatColor.DARK_GREEN + "MineZ", "Â§bPrzetrwaj plage zombie!");
+		rpg = createItem(DyeColor.BLUE, ChatColor.BLUE + "RPG", "Â§1RPG, frakcje i klasy");
+		sb = createItem(DyeColor.GRAY, ChatColor.GRAY + "SkyBlock", "Â§bGotowy(a) na SkyBlock w kosmosie?");
+		sg = createItem(DyeColor.YELLOW, ChatColor.YELLOW + "Survival Games", "Â§bSG z autorskimi mapami!");
 		
-		quit = createQuitItem("Serwer Lobby", "§bKliknij, aby powrócic na serwer Lobby");
-		minigames = createItem(Material.FIRE, "MiniGames", "§7Serwery MiniGames");
-		inne = createItem(Material.FIRE, "Inne serwery", "§7Inne serwery");
-		inne_ts = createItem("Nasz TeamSpeak 3", "§bdyrtcraft.pl");
-		inne_www = createItem("Nasza strona WWW", "§bhttp://dyrtcraft.pl");
-		inne_forum = createItem("Nasze forum", "§bhttp://dyrtcraft.pl/forum");
+		quit = createQuitItem("Serwer Lobby", "Â§bKliknij, aby powrÃ³cic na serwer Lobby");
+		minigames = createItem(Material.FIRE, "MiniGames", "Â§7Serwery MiniGames");
+		inne = createItem(Material.FIRE, "Inne serwery", "Â§7Inne serwery");
+		inne_ts = createItem("Nasz TeamSpeak 3", "Â§bdyrtcraft.pl");
+		inne_www = createItem("Nasza strona WWW", "Â§bhttp://dyrtcraft.pl");
+		inne_forum = createItem("Nasze forum", "Â§bhttp://dyrtcraft.pl/forum");
 		
 		/*
 		 * | 00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 |
@@ -79,11 +79,12 @@ public class TeleportInventory implements Listener {
 	
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
-		try {// Otwieranie inv po naciœniêciu na tabliczkê
+		// Otwieranie inv po naciÅ›niÄ™ciu na tabliczkÄ™
+		try {
 			if(!(e.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
 			if(e.getClickedBlock().getState() instanceof Sign) {
 				Sign s = (Sign) e.getClickedBlock().getState();
-				if(s.getLine(1).equalsIgnoreCase("Lista serwerów"))
+				if(s.getLine(1).equalsIgnoreCase("Lista serwerÃ³w"))
 				if(s.getLine(2).equalsIgnoreCase(ChatColor.UNDERLINE + "" + ChatColor.BOLD + "DyrtCraft")) {
 					BungeeInventory.showInventory(e.getPlayer());
 				}
@@ -101,7 +102,7 @@ public class TeleportInventory implements Listener {
 				e.getPlayer().sendMessage(ChatColor.RED + "Ojj, brak odpowiednich uprawnien!");
 			} else {
 				e.setLine(0, "");
-				e.setLine(1, "Lista serwerów");
+				e.setLine(1, "Lista serwerÃ³w");
 				e.setLine(2, ChatColor.UNDERLINE + "" + ChatColor.BOLD + "DyrtCraft");
 				e.setLine(3, "");
 				e.getPlayer().sendMessage(ChatColor.DARK_GREEN + "Pomyslnie utworzono tabliczke!");
@@ -109,7 +110,7 @@ public class TeleportInventory implements Listener {
 		}
 	}
 	
-	// Ksi¹¿ka
+	// KsiÄ…Å¼ka
 	private ItemStack createItem(String name, String adress) {
 		ItemStack i = new ItemStack(Material.BOOK);
 		ItemMeta im = i.getItemMeta();
@@ -119,7 +120,7 @@ public class TeleportInventory implements Listener {
 		return i;
 	}
 	
-	// We³na
+	// WeÅ‚na
 	private ItemStack createItem(DyeColor dc, String name, String description) {
 		ItemStack i = new Wool(dc).toItemStack(1);
 		ItemMeta im = i.getItemMeta();
@@ -139,7 +140,7 @@ public class TeleportInventory implements Listener {
 		return i;
 	}
 	
-	// Per³a endermana (teleport do lobby)
+	// PerÅ‚a endermana (teleport do lobby)
 	private ItemStack createQuitItem(String name, String name2) {
 		ItemStack q = new ItemStack(Material.EYE_OF_ENDER);
 		ItemMeta im = q.getItemMeta();

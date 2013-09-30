@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class MySQL {
 
 	/*
-	 * Tu w przyszlosci bedzie obsluga bazy danych do XP oraz innych moøliwoúci! :D
+	 * Tu w przyszlosci bedzie obsluga bazy danych do XP oraz innych mo≈ºliwo≈õci! :D
 	 * 
 	 * Tabele:
 	 * 
