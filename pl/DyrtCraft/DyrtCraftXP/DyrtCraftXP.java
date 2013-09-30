@@ -8,7 +8,7 @@ public class DyrtCraftXP extends JavaPlugin {
 	
 	static DyrtCraftXP instance;
 	String authors = "TheMolkaPL";
-	String version = "Alpha 1.1.5";
+	String version = "Alpha 1.1.5_1";
 	
 	@Override
 	public void onEnable() {

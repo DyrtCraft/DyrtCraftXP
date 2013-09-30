@@ -62,7 +62,7 @@ public class LobbyCommand implements CommandExecutor {
 					}
 				// Jezeli argument 0 to nie: -all
 				} else {
-					// Pobieranie gracze z listy graczy online
+					// Pobieranie gracza z listy graczy online
 					Player gracz = Bukkit.getServer().getPlayer(args[0]);
 					// Jezeli sender nie jest operatorem serwera
 					if(!(sender.isOp())) {
@@ -71,18 +71,21 @@ public class LobbyCommand implements CommandExecutor {
 					}
 					// Jezeli pobrany gracz nie jest online na serwerze
 					if(gracz == null) {
-			        	sender.sendMessage(ChatColor.RED + "Gracz " + args[0] + " nie jest obecnie na serwerze!");
+			        	sender.sendMessage(ChatColor.RED + "Gracz \"" + args[0] + "\" nie jest obecnie na serwerze!");
 			        	return true;
 			        }
 					// Polacz z serwerem lobby
 					Bungee.connect(gracz, "Lobby", "lobby");
+					return true;
 				}
 			// Liczba argumentow nie zostala spelniona
 			} else {
 				sender.sendMessage(ChatColor.RED + "Zbyt duzo argumentów!");
 				sender.sendMessage(ChatColor.RED + "Uzycie: " + plugin.getCommand("lobby").getUsage());
+				return true;
 			}
 		}
+		// Jezeli komenda nie jest /lobby i /hub
 		return false;
 	}
 
