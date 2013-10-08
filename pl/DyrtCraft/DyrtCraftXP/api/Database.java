@@ -1,35 +1,47 @@
 package pl.DyrtCraft.DyrtCraftXP.api;
 
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
+import pl.DyrtCraft.DyrtCraftXP.MySQL;
 
 /**
  * @since Alpha 1.1.5_2
  */
 public class Database {
 
-	DyrtCraftXP plugin;
-	XP xp;
+	static DyrtCraftXP plugin;
+	static MySQL mySql;
+	static XP xp;
 	
 	public Database(DyrtCraftXP dyrtCraftXP) {
 		plugin = dyrtCraftXP;
 	}
 	
-	public static void createNewPlayer(String player) {}
+	public static void createNewPlayer(String player) {
+		String lastServer = plugin.getConfig().getString("nazwa-serwera");
+		
+		mySql.addNewPlayer(player, lastServer);
+	}
 	
-	public static String getLastLogin(String player) {
-		return null;
+	public static String getLastLogout(String player) {
+		String lastLogout = mySql.getLastLogout(player);
+		return lastLogout;
 	}
 	
 	public static String getLastServer(String player) {
-		return null;
+		String lastServer = mySql.getLastServer(player);
+		return lastServer;
 	}
 	
-	public XP getXP() {
+	public static XP getXP() {
 		return xp;
 	}
 	
-	public static void setLastLogin(String player) {}
+	public static void setLastLogout(String player, String time) {
+		mySql.setLastLogout(player, time);
+	}
 	
-	public static void setLastServer(String player) {}
+	public static void setLastServer(String player, String server) {
+		mySql.setLastServer(player, server);
+	}
 	
 }

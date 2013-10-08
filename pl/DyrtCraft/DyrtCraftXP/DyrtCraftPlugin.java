@@ -8,6 +8,12 @@ public class DyrtCraftPlugin {
 	
 	public DyrtCraftPlugin(DyrtCraftXP dyrtCraftXP) {}
 	
+	/**
+	 * @author TheMolkaPL
+	 * @since Alpha 1.0.0
+	 * @param wiadomosc Wiadomosc do operatorów
+	 * @param priorytet Priorytet wiadomosci
+	 */
 	public static void sendMsgToOp(String wiadomosc, int priorytet) {
 		for(Player op : Bukkit.getOnlinePlayers()) {
 			if(op.isOp()) {

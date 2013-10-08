@@ -1,4 +1,8 @@
 wiadomosc-1: '&e Gracz {GRACZ} przeszedl na serwer {SERWER}.'
 nazwa-serwera: 'null'
+sql:
+    address:
+    login:
+    password:
 lista-portali:
 portale:

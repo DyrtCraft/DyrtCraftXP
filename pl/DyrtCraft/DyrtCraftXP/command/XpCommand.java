@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftPlugin;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
+import pl.DyrtCraft.DyrtCraftXP.api.Database;
 import pl.DyrtCraft.DyrtCraftXP.api.XP;
 
 /**
@@ -35,7 +36,7 @@ public class XpCommand implements CommandExecutor {
 				// Jezeli wyslal gracz
 				Player p = (Player) sender;
 				// Pokaz ilosc XP
-				XP.showXp(p);
+				sender.sendMessage(XP.showXp(p.toString()));
 				return true;
 			}
 			// Liczba argumentow - 1
@@ -54,7 +55,7 @@ public class XpCommand implements CommandExecutor {
 		        }
 				// Jezeli wyslal gracz
 				// Pokaz ilosc XP
-		        XP.showXp(gracz);
+		        sender.sendMessage(XP.showXp(gracz.toString()));
 		        return true;
 			}
 			// Liczba argumentow - 2
@@ -66,12 +67,12 @@ public class XpCommand implements CommandExecutor {
 				}
 				// Argument 1: create
 				if(args[1].equalsIgnoreCase("create")) {
-					XP.createNewPlayer(args[0]);
+					Database.createNewPlayer(args[0]);
 					DyrtCraftPlugin.sendMsgToOp(sender.getName() + " stworzyl nowe konto dla gracza " + args[0], 1);
 					return true;
 				} else {
 					sender.sendMessage(ChatColor.RED + "Popelniono blad! Spróbuj jeszcze raz!");
-					sender.sendMessage(ChatColor.RED + "/xp [gracz] [[create]del|give|set liczba]");
+					sender.sendMessage(ChatColor.RED + "/xp [gracz] [[create]del|give|set <liczba>]");
 					return true;
 				}
 			}
@@ -112,13 +113,13 @@ public class XpCommand implements CommandExecutor {
 				// Zaden z argumentow nie zostal spelniony
 				} else {
 					sender.sendMessage(ChatColor.RED + "Popelniono blad! Spróbuj jeszcze raz!");
-					sender.sendMessage(ChatColor.RED + "/xp [gracz] [[create]|del|give|set liczba]");
+					sender.sendMessage(ChatColor.RED + "/xp [gracz] [[create]|del|give|set <liczba>]");
 					return true;
 				}
 		    // Liczba argumentow nie zostala spelniona
 			} else {
 				sender.sendMessage(ChatColor.RED + "Popelniono blad! Spróbuj jeszcze raz!");
-				sender.sendMessage(ChatColor.RED + "/xp [gracz] [[create]del|give|set liczba]");
+				sender.sendMessage(ChatColor.RED + "/xp [gracz] [[create]del|give|set <liczba>]");
 				return true;
 			}
 		}

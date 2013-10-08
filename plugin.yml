@@ -1,5 +1,5 @@
 name: DyrtCraftXP
-version: Alpha 1.1.5_2
+version: Alpha 1.1.6 - SNAPSHOT BUILD 01
 website: http://dyrtcraft.pl/
 author: TheMolkaPL
 database: true
@@ -16,5 +16,5 @@ commands:
         aliases: [hub]
         usage: /lobby [-ALL|gracz]
     xp:
-        description: Pokaz poziom gracza
-        usage: /xp [gracz] [[create]del|give|set liczba]
+        description: Pokaz ilosc XP gracza
+        usage: /xp [gracz] [[create]del|give|set <liczba>]

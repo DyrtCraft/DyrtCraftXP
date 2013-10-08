@@ -4,9 +4,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
+import pl.DyrtCraft.DyrtCraftXP.MySQL;
 
 public class XP {
 
+	static MySQL mySql;
 	DyrtCraftXP plugin;
 	
 	public XP(DyrtCraftXP dyrtCraftXP) {
@@ -14,29 +16,27 @@ public class XP {
 	}
 	
 	public static void addXp(Player player, int xp, String powod) {
-		//int xp1 = get SQL
+		int xpRazem = xp+mySql.getXP(player.toString());
+		mySql.setXP(player.toString(), xpRazem);
 		player.sendMessage(ChatColor.LIGHT_PURPLE + "Zdobyles " + xp +" XP za: " + powod + ".");
-	}
-	
-	public static void createNewPlayer(String Player) {
-		// get SQL
+		player.sendMessage(XP.showXp(player.toString()));
 	}
 	
 	public static void delXp(Player player, int xp, String powod) {
-		//int xp1 = get SQL
+		int xpRazem = mySql.getXP(player.toString())+xp;
+		mySql.setXP(player.toString(), xpRazem);
 		player.sendMessage(ChatColor.RED + "Straciles " + xp + " XP za: " + powod + ".");
+		player.sendMessage(XP.showXp(player.toString()));
 	}
 	
-	public static int getXp(Player player) {
-		//int xp1 = get SQL
-		//return xp1;
-		return 0;
+	public static int getXp(String player) {
+		int xp1 = mySql.getXP(player);
+		return xp1;
 	}
 	
-	public static void showXp(Player player) {
-		//int xp1 = get SQL
-		Object xp1 = null; // Do usuniecia
-		player.sendMessage(ChatColor.LIGHT_PURPLE + "Aktualna ilosc XP gracza " + player + " to " + xp1 + ".");
+	public static String showXp(String player) {
+		int xp1 = mySql.getXP(player.toString());
+		return ChatColor.LIGHT_PURPLE + "Aktualna ilosc XP gracza " + player + " to " + xp1 + ".";
 	}
 	
 }

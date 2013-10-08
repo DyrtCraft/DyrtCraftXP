@@ -8,7 +8,13 @@ public class DyrtCraftXP extends JavaPlugin {
 	
 	static DyrtCraftXP instance;
 	String authors = "TheMolkaPL";
-	String version = "Alpha 1.1.5_1";
+	String version = "Alpha 1.1.6 - SNAPSHOT BUILD 01";
+	
+	// Dane do SQL
+	String address = getConfig().getString("sql.address");
+	String login = getConfig().getString("sql.login");
+	String password = getConfig().getString("sql.password");
+	// Koniec danych do SQL
 	
 	@Override
 	public void onEnable() {
@@ -21,6 +27,8 @@ public class DyrtCraftXP extends JavaPlugin {
 		
 		registerCommands();
 		registerListeners();
+		
+		new MySQL(this, address, login, password);
 		
 		getLogger().info("Zaladowano DyrtCraftXP wersja " + getDescription().getVersion());
 	}
@@ -53,5 +61,5 @@ public class DyrtCraftXP extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.LobbySign(this), this);
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.TeleportInventory(this), this);
 	}
-
+	
 }

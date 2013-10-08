@@ -31,7 +31,7 @@ public class TeleportInventory implements Listener {
 	static DyrtCraftXP pluginStatic;
 	
 	private static Inventory inv;
-	private ItemStack hc, mz, rpg, sb, sg, quit, minigames, inne, inne_ts, inne_www, inne_forum;
+	private ItemStack hc, mz, pb, rpg, sb, sg, quit, minigames, inne, inne_ts, inne_www, inne_forum;
 	
 	public TeleportInventory(DyrtCraftXP dyrtCraftXP) {
 		plugin=dyrtCraftXP;
@@ -40,6 +40,7 @@ public class TeleportInventory implements Listener {
 		
 		hc = createItem(DyeColor.RED, ChatColor.RED + "Hardcore", "§bSpróbuj oryginalnego Apokaliptycznego hardcore'a!");
 		mz = createItem(DyeColor.GREEN, ChatColor.DARK_GREEN + "MineZ", "§bPrzetrwaj plage zombie!");
+		pb = createItem(DyeColor.WHITE, ChatColor.WHITE + "Paintball", "");
 		rpg = createItem(DyeColor.BLUE, ChatColor.BLUE + "RPG", "§1RPG, frakcje i klasy");
 		sb = createItem(DyeColor.GRAY, ChatColor.GRAY + "SkyBlock", "§bGotowy(a) na SkyBlock w kosmosie?");
 		sg = createItem(DyeColor.YELLOW, ChatColor.YELLOW + "Survival Games", "§bSG z autorskimi mapami!");
@@ -66,7 +67,8 @@ public class TeleportInventory implements Listener {
 		// MiniGames
 		inv.setItem(9, minigames);
 		inv.setItem(10, mz);
-		inv.setItem(11, sg);
+		inv.setItem(11, pb);
+		inv.setItem(12, sg);
 		
 		// Inne itemy
 		inv.setItem(18, inne_ts);
@@ -180,7 +182,13 @@ public class TeleportInventory implements Listener {
 				Bungee.connect(p, "MineZ", "minez");
 				e.getWhoClicked().closeInventory();
 			}
-			// Heros
+			// Paintball
+			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Paintball")) {
+				e.setCancelled(true);
+				Bungee.connect(p, "Paintball", "pb");
+				e.getWhoClicked().closeInventory();
+			}
+			// RPG
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("RPG")) {
 				e.setCancelled(true);
 				Bungee.connect(p, "RPG", "rpg");

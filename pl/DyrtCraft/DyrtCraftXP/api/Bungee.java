@@ -44,6 +44,7 @@ public class Bungee implements Listener, PluginMessageListener{
 			out.writeUTF(serverAddress);
 		} catch(IOException ex) {}
 		//Bungee.broadcastLeftMessage(playerQuitEvent, player, serverName);
+		pluginStatic.getLogger().info("Przelaczanie gracza " + player.getName() + " na serwer " + serverName + "...");
 		player.sendPluginMessage(pluginStatic, "BungeeCord", b.toByteArray());
 	}
 	
