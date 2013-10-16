@@ -1,0 +1,16 @@
+name: DyrtCraftXP
+version: Alpha 1.1.6 - SNAPSHOT BUILD 02
+website: http://dyrtcraft.pl/
+author: TheMolkaPL
+database: true
+description: Plugin stworzony specjalnie dla DyrtCraft Network!
+
+main: pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP
+
+commands:
+    dcxp:
+        description: Komendy DyrtCraftXP
+        usage: /dcxp <inv|portals|reload|version>
+    xp:
+        description: Pokaz ilosc XP gracza
+        usage: /xp [gracz] [[create]del|give|set <liczba>]
