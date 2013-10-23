@@ -22,11 +22,17 @@ public class XP {
 		player.sendMessage(XP.showXp(player.toString()));
 	}
 	
-	public static void delXp(Player player, int xp, String powod) {
-		int xpRazem = mySql.getXP(player.toString())+xp;
+	public static boolean delXp(Player player, int xp, String powod) {
+		int iloscXp = mySql.getXP(player.toString());
+		if(iloscXp == xp || iloscXp < xp) {
+			// Nie wystarczajacy liczba XP
+			return false;
+		}
+		int xpRazem = mySql.getXP(player.toString())-xp;
 		mySql.setXP(player.toString(), xpRazem);
 		player.sendMessage(ChatColor.RED + "Straciles " + xp + " XP za: " + powod + ".");
 		player.sendMessage(XP.showXp(player.toString()));
+		return true;
 	}
 	
 	public static int getXp(String player) {

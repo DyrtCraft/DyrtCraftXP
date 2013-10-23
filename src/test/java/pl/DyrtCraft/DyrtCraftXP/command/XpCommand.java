@@ -20,6 +20,8 @@ import pl.DyrtCraft.DyrtCraftXP.api.XP;
  */
 public class XpCommand implements CommandExecutor {
 	
+	int xp;
+	
 	public XpCommand(DyrtCraftXP dyrtCraftXP) {}
 
 	@Override
@@ -85,31 +87,55 @@ public class XpCommand implements CommandExecutor {
 				}
 				// Argument 1: del
 				if(args[1].equalsIgnoreCase("del")) {
-					/*
-					int xp = args[2];
-					XP.delXp(args[0], xp, "Usunieto " + xp + " XP przez " + sender.getName());
-					DyrtCraftPlugin.sendMsgToOp(sender.getName() + " usunal graczowi " + args[0] + xp + " XP", 1);
-					return true;
-					*/
+					try {
+						if(!(Bukkit.getPlayerExact(args[0]).isOnline())) {
+							sender.sendMessage(ChatColor.RED + "Gracz \"" + args[0] + "\" musi byc online na serwerze!");
+							return true;
+						}
+						xp = Integer.parseInt(args[2]);
+						Player player = Bukkit.getPlayer(args[0]);
+						XP.delXp(player, xp, "Usunieto " + xp + " XP przez " + sender.getName());
+						DyrtCraftPlugin.sendMsgToOp(sender.getName() + " usunal graczowi " + args[0] + xp + " XP", 1);
+						return true;
+					} catch(NumberFormatException ex) {
+						sender.sendMessage(ChatColor.RED + "Argumentem \"" + args[2] + "\" musi byc liczba!");
+						return true;
+					}
 				}
 				// Argument 1: give
 				if(args[1].equalsIgnoreCase("give")) {
-					/*
-					int xp = args[2];
-					XP.addXp(args[0], xp, "Dodano " + xp + "XP przez " + sender.getName());
-					DyrtCraftPlugin.sendMsgToOp(sender.getName() + " dodal graczowi " + args[0] + xp + " XP", 1);
-					return true;
-					*/
+					try {
+						if(!(Bukkit.getPlayerExact(args[0]).isOnline())) {
+							sender.sendMessage(ChatColor.RED + "Gracz \"" + args[0] + "\" musi byc online na serwerze!");
+							return true;
+						}
+						xp = Integer.parseInt(args[2]);
+						Player player = Bukkit.getPlayer(args[0]);
+						XP.addXp(player, xp, "Dodano " + xp + "XP przez " + sender.getName());
+						DyrtCraftPlugin.sendMsgToOp(sender.getName() + " dodal graczowi " + args[0] + xp + " XP", 1);
+						return true;
+					} catch(NumberFormatException ex) {
+						sender.sendMessage(ChatColor.RED + "Argumentem \"" + args[2] + "\" musi byc liczba!");
+						return true;
+					}
 				}
 				// Argument 1: set
 				if(args[1].equalsIgnoreCase("set")) {
-					/*
-					int xp = args[2];
-					XP.delXp(args[0], Integer.MAX_VALUE, "");
-					XP.addXp(args[0], xp, "Ustawiono " + xp + "XP przez " + sender.getName());
-					DyrtCraftPlugin.sendMsgToOp(sender.getName() + " ustawil graczowi " + args[0] + xp + " XP", 1);
-					return true;
-					*/
+					try {
+						if(!(Bukkit.getPlayerExact(args[0]).isOnline())) {
+							sender.sendMessage(ChatColor.RED + "Gracz \"" + args[0] + "\" musi byc online na serwerze!");
+							return true;
+						}
+						xp = Integer.parseInt(args[2]);
+						Player player = Bukkit.getPlayer(args[0]);
+						XP.delXp(player, Integer.MAX_VALUE, "");
+						XP.addXp(player, xp, "Ustawiono " + xp + "XP przez " + sender.getName());
+						DyrtCraftPlugin.sendMsgToOp(sender.getName() + " ustawil graczowi " + args[0] + xp + " XP", 1);
+						return true;
+					} catch(NumberFormatException ex) {
+						sender.sendMessage(ChatColor.RED + "Argumentem \"" + args[2] + "\" musi byc liczba!");
+						return true;
+					}
 				// Zaden z argumentow nie zostal spelniony
 				} else {
 					sender.sendMessage(ChatColor.RED + "Popelniono blad! Spróbuj jeszcze raz!");

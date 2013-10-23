@@ -8,7 +8,7 @@ public class DyrtCraftXP extends JavaPlugin {
 	
 	static DyrtCraftXP instance;
 	String authors = "TheMolkaPL";
-	String version = "Alpha 1.1.6 - SNAPSHOT BUILD 02";
+	String version = "Alpha 1.1.6 - SNAPSHOT BUILD 03";
 	
 	// Dane do SQL
 	/* adres */ //String address = getConfig().getString("sql.address");
