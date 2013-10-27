@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,7 +18,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.Wool;
+import org.bukkit.material.SpawnEgg;
 
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
 import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
@@ -30,7 +30,7 @@ public class TeleportInventory implements Listener {
 	PlayerQuitEvent playerQuitEvent;
 	static DyrtCraftXP pluginStatic;
 	
-	private static Inventory inv;
+	public static Inventory inv;
 	private ItemStack hc, mz, pb, rpg, sb, sg, quit, minigames, inne, inne_ts, inne_www, inne_forum;
 	
 	public TeleportInventory(DyrtCraftXP dyrtCraftXP) {
@@ -38,16 +38,16 @@ public class TeleportInventory implements Listener {
 		
 		inv = Bukkit.getServer().createInventory(null, 27, ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "DyrtCraft" + ChatColor.DARK_GRAY + " Wybierz serwer:");
 		
-		hc = createItem(DyeColor.RED, ChatColor.RED + "Hardcore", "§bSpróbuj oryginalnego Apokaliptycznego hardcore'a!");
-		mz = createItem(DyeColor.GREEN, ChatColor.DARK_GREEN + "MineZ", "§bPrzetrwaj plage zombie!");
-		pb = createItem(DyeColor.WHITE, ChatColor.WHITE + "Paintball", "");
-		rpg = createItem(DyeColor.BLUE, ChatColor.BLUE + "RPG", "§1RPG, frakcje i klasy");
-		sb = createItem(DyeColor.GRAY, ChatColor.GRAY + "SkyBlock", "§bGotowy(a) na SkyBlock w kosmosie?");
-		sg = createItem(DyeColor.YELLOW, ChatColor.YELLOW + "Survival Games", "§bSG z autorskimi mapami!");
+		hc = createItem(EntityType.SPIDER, ChatColor.RED + "Hardcore", "§bSpróbuj oryginalnego Apokaliptycznego hardcore'a!");
+		mz = createItem(EntityType.ZOMBIE, ChatColor.DARK_GREEN + "MineZ", "§bPrzetrwaj plage zombie!");
+		pb = createItem(EntityType.GHAST, ChatColor.WHITE + "Paintball", "");
+		rpg = createItem(EntityType.SQUID, ChatColor.BLUE + "RPG", "§bRPG, frakcje i klasy");
+		sb = createItem(EntityType.COW, ChatColor.GRAY + "SkyBlock", "§bGotowy(a) na SkyBlock w kosmosie?");
+		sg = createItem(EntityType.BLAZE, ChatColor.YELLOW + "Survival Games", "§bSG z autorskimi mapami!");
 		
 		quit = createQuitItem("Serwer Lobby", "§bKliknij, aby powrócic na serwer Lobby");
-		minigames = createItem(Material.FIRE, "MiniGames", "§7Serwery MiniGames");
-		inne = createItem(Material.FIRE, "Inne serwery", "§7Inne serwery");
+		minigames = createItem(Material.getMaterial(385), "MiniGames", "§7Serwery MiniGames");
+		inne = createItem(Material.getMaterial(385), "Inne serwery", "§7Inne serwery");
 		inne_ts = createItem("Nasz TeamSpeak 3", "§bdyrtcraft.pl");
 		inne_www = createItem("Nasza strona WWW", "§bhttp://dyrtcraft.pl");
 		inne_forum = createItem("Nasze forum", "§bhttp://dyrtcraft.pl/forum");
@@ -88,7 +88,7 @@ public class TeleportInventory implements Listener {
 				Sign s = (Sign) e.getClickedBlock().getState();
 				if(s.getLine(1).equalsIgnoreCase("Lista serwerów"))
 				if(s.getLine(2).equalsIgnoreCase(ChatColor.UNDERLINE + "" + ChatColor.BOLD + "DyrtCraft")) {
-					BungeeInventory.showInventory(e.getPlayer());
+					show(e.getPlayer());
 				}
 			}
 		} catch(NullPointerException ex) {}
@@ -114,7 +114,7 @@ public class TeleportInventory implements Listener {
 	
 	// Książka
 	private ItemStack createItem(String name, String adress) {
-		ItemStack i = new ItemStack(Material.BOOK);
+		ItemStack i = new ItemStack(Material.getMaterial(386));
 		ItemMeta im = i.getItemMeta();
 		im.setDisplayName(name);
 		im.setLore(Arrays.asList(adress));
@@ -123,8 +123,8 @@ public class TeleportInventory implements Listener {
 	}
 	
 	// Wełna
-	private ItemStack createItem(DyeColor dc, String name, String description) {
-		ItemStack i = new Wool(dc).toItemStack(1);
+	private ItemStack createItem(EntityType dc, String name, String description) {
+		ItemStack i = new SpawnEgg(dc).toItemStack(1);
 		ItemMeta im = i.getItemMeta();
 		im.setDisplayName(name);
 		im.setLore(Arrays.asList("Kliknij, aby przejsc na serwer.", description));
@@ -159,7 +159,7 @@ public class TeleportInventory implements Listener {
 	 * 
 	 * @param player Gracz
 	 */
-	public static void show(Player player) {
+	public void show(Player player) {
 		player.openInventory(inv);
 	}
 	
@@ -170,45 +170,39 @@ public class TeleportInventory implements Listener {
 			Player p = (Player) e.getWhoClicked();
 		
 			if(!e.getInventory().getName().equalsIgnoreCase(inv.getName())) return;
+			e.setCancelled(true);
 			// Hardcore
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Hardcore")) {
-				e.setCancelled(true);
 				Bungee.connect(p, "Hardcore", "hardcore");
 				e.getWhoClicked().closeInventory();
 			}
 			// MineZ
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("MineZ")) {
-				e.setCancelled(true);
 				Bungee.connect(p, "MineZ", "minez");
 				e.getWhoClicked().closeInventory();
 			}
 			// Paintball
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Paintball")) {
-				e.setCancelled(true);
 				Bungee.connect(p, "Paintball", "pb");
 				e.getWhoClicked().closeInventory();
 			}
 			// RPG
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("RPG")) {
-				e.setCancelled(true);
 				Bungee.connect(p, "RPG", "rpg");
 				e.getWhoClicked().closeInventory();
 			}
 			// SkyBlock
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("SkyBlock")) {
-				e.setCancelled(true);
 				Bungee.connect(p, "SkyBlock", "skyblock");
 				e.getWhoClicked().closeInventory();
 			}
 			// Survival Games
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Survival Games")) {
-				e.setCancelled(true);
 				Bungee.connect(p, "Survival Games", "survivalgames");
 				e.getWhoClicked().closeInventory();
 			}
 			// Lobby
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Serwer Lobby")) {
-				e.setCancelled(true);
 				Bungee.connect(p, "Lobby", "lobby");
 				e.getWhoClicked().closeInventory();
 			} else {
