@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.SpawnEgg;
 
+import pl.DyrtCraft.DyrtCraftXP.CraftDyrt;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
 import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
 import pl.DyrtCraft.DyrtCraftXP.api.BungeeInventory;
@@ -175,42 +176,43 @@ public class TeleportInventory implements Listener {
 	public void onInventoryClick(InventoryClickEvent e) {
 		try {
 			Player p = (Player) e.getWhoClicked();
+			Bungee _ = CraftDyrt.getBungeeCord();
 		
 			if(!e.getInventory().getName().equalsIgnoreCase(inv.getName())) return;
 			e.setCancelled(true);
 			// Hardcore
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Hardcore")) {
-				Bungee.connect(p, "Hardcore", "hardcore");
+				_.connect(p, "Hardcore", "hardcore");
 				e.getWhoClicked().closeInventory();
 			}
 			// MineZ
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("MineZ")) {
-				Bungee.connect(p, "MineZ", "minez");
+				_.connect(p, "MineZ", "minez");
 				e.getWhoClicked().closeInventory();
 			}
 			// Paintball
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Paintball")) {
-				Bungee.connect(p, "Paintball", "pb");
+				_.connect(p, "Paintball", "pb");
 				e.getWhoClicked().closeInventory();
 			}
 			// RPG
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("RPG")) {
-				Bungee.connect(p, "RPG", "rpg");
+				_.connect(p, "RPG", "rpg");
 				e.getWhoClicked().closeInventory();
 			}
 			// SkyBlock
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("SkyBlock")) {
-				Bungee.connect(p, "SkyBlock", "skyblock");
+				_.connect(p, "SkyBlock", "skyblock");
 				e.getWhoClicked().closeInventory();
 			}
 			// Survival Games
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Survival Games")) {
-				Bungee.connect(p, "Survival Games", "survivalgames");
+				_.connect(p, "Survival Games", "survivalgames");
 				e.getWhoClicked().closeInventory();
 			}
 			// Lobby
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Serwer Lobby")) {
-				Bungee.connect(p, "Lobby", "lobby");
+				_.connect(p, "Lobby", "lobby");
 				e.getWhoClicked().closeInventory();
 			}
 			

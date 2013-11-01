@@ -44,7 +44,7 @@ public class MySQL {
 			connect(address, login, password);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Nie zaladowano MySQL, Zobacz konsole", 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Nie zaladowano MySQL, Zobacz konsole", 1);
 		}
 	}
 	
@@ -54,22 +54,22 @@ public class MySQL {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Zaladowano sterownik MySQL (com.mysql.jdbc.Driver)", 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Zaladowano sterownik MySQL (com.mysql.jdbc.Driver)", 1);
 		} catch(ClassNotFoundException ex) {
 			ex.printStackTrace();
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Nie zaladowano sterownika MySQL, Zobacz konsole", 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Nie zaladowano sterownika MySQL, Zobacz konsole", 1);
 		} catch(InstantiationException ex) {
 			ex.printStackTrace();
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Nie zaladowano sterownika MySQL, Zobacz konsole", 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Nie zaladowano sterownika MySQL, Zobacz konsole", 1);
 		}
 		
 		try {
 			connect1 = DriverManager.getConnection("jdbc:mysql://localhost:3306", login, password);
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Polaczono z baza danych MySQL", 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Polaczono z baza danych MySQL", 1);
 			createTables();
 		} catch(SQLException ex) {
 			ex.printStackTrace();
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Nie polaczono z MySQL, zobacz konsole", 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Nie polaczono z MySQL, zobacz konsole", 1);
 		}
 	}
 	
@@ -85,9 +85,9 @@ public class MySQL {
 			
 			statement.execute("INSERT INTO DyrtCraftXP1(NICK, XP, LASTLOGOUT, LASTSERVER, KILLS, DEADS) VALUES('" + player + "', 0, 'Online', '" + lastServer + "', 0, 0)");
 			
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Dodano nowego gracza " + player + " do tabeli DyrtCraftXP1", 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Dodano nowego gracza " + player + " do tabeli DyrtCraftXP1", 1);
 		} catch(SQLException ex) {
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Napotkano problem z dodaniem nowego gracza do tabeli DyrtCraftXP1", 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Napotkano problem z dodaniem nowego gracza do tabeli DyrtCraftXP1", 1);
 			ex.printStackTrace();
 		}
 	}
@@ -98,7 +98,7 @@ public class MySQL {
 			res = prep.executeQuery();
 			return res.getInt(1);
 		} catch(SQLException ex) {
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Napotkano problem z pobraniem deads od gracza " + player, 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Napotkano problem z pobraniem deads od gracza " + player, 1);
 			ex.printStackTrace();
 			return -1;
 		}
@@ -110,7 +110,7 @@ public class MySQL {
 			res = prep.executeQuery();
 			return res.getInt(1);
 		} catch(SQLException ex) {
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Napotkano problem z pobraniem kills od gracza " + player, 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Napotkano problem z pobraniem kills od gracza " + player, 1);
 			ex.printStackTrace();
 			return -1;
 		}
@@ -122,7 +122,7 @@ public class MySQL {
 			res = prep.executeQuery();
 			return res.getString(1);
 		} catch(SQLException ex) {
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Napotkano problem z pobraniem lastLogout od gracza " + player, 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Napotkano problem z pobraniem lastLogout od gracza " + player, 1);
 			ex.printStackTrace();
 			return "Blad";
 		}
@@ -134,7 +134,7 @@ public class MySQL {
 			res = prep.executeQuery();
 			return res.getString(1);
 		} catch(SQLException ex) {
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Napotkano problem z pobraniem lastServer od gracza " + player, 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Napotkano problem z pobraniem lastServer od gracza " + player, 1);
 			ex.printStackTrace();
 			return "Blad";
 		}
@@ -146,7 +146,7 @@ public class MySQL {
 			res = prep.executeQuery();
 			return res.getInt(1);
 		} catch(SQLException ex) {
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Napotkano problem z pobraniem XP od gracza " + player, 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Napotkano problem z pobraniem XP od gracza " + player, 1);
 			ex.printStackTrace();
 			return -1;
 		}
@@ -158,7 +158,7 @@ public class MySQL {
 			String a = "UPDATE DyrtCraftXP1 SET DEADS=" + deads + " WHERE NICK='" + player + "'";
 			statement.executeUpdate(a);
 		} catch(SQLException ex) {
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Napotkano problem z ustawieniem deads dla gracza " + player, 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Napotkano problem z ustawieniem deads dla gracza " + player, 1);
 			ex.printStackTrace();
 		}
 	}
@@ -169,7 +169,7 @@ public class MySQL {
 			String a = "UPDATE DyrtCraftXP1 SET KILLS=" + kills + " WHERE NICK='" + player + "'";
 			statement.executeUpdate(a);
 		} catch(SQLException ex) {
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Napotkano problem z ustawieniem kills dla gracza " + player, 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Napotkano problem z ustawieniem kills dla gracza " + player, 1);
 			ex.printStackTrace();
 		}
 	}
@@ -180,7 +180,7 @@ public class MySQL {
 			String a = "UPDATE DyrtCraftXP1 SET LASTLOGOUT=" + logoutTime + " WHERE NICK='" + player + "'";
 			statement.executeUpdate(a);
 		} catch(SQLException ex) {
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Napotkano problem z ustawieniem lastLogoutTime dla gracza " + player, 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Napotkano problem z ustawieniem lastLogoutTime dla gracza " + player, 1);
 			ex.printStackTrace();
 		}
 	}
@@ -191,7 +191,7 @@ public class MySQL {
 			String a = "UPDATE DyrtCraftXP1 SET LASTSERVER=" + server + " WHERE NICK='" + player + "'";
 			statement.executeUpdate(a);
 		} catch(SQLException ex) {
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Napotkano problem z ustawieniem lastServer dla gracza " + player, 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Napotkano problem z ustawieniem lastServer dla gracza " + player, 1);
 			ex.printStackTrace();
 		}
 	}
@@ -202,7 +202,7 @@ public class MySQL {
 			String a = "UPDATE DyrtCraftXP1 SET XP=" + xp + " WHERE NICK='" + player + "'";
 			statement.executeUpdate(a);
 		} catch(SQLException ex) {
-			DyrtCraftPlugin.sendMsgToOp("[SQL] Napotkano problem z ustawieniem XP dla gracza " + player, 1);
+			CraftDyrt.getDyrtCraft().sendMsgToOp("[SQL] Napotkano problem z ustawieniem XP dla gracza " + player, 1);
 			ex.printStackTrace();
 		}
 	}

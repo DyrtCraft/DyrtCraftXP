@@ -9,9 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.yaml.snakeyaml.error.YAMLException;
 
-import pl.DyrtCraft.DyrtCraftXP.DyrtCraftPlugin;
+import pl.DyrtCraft.DyrtCraftXP.CraftDyrt;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
-import pl.DyrtCraft.DyrtCraftXP.api.BungeeInventory;
 
 public class DcxpCommand implements CommandExecutor {
 
@@ -45,7 +44,7 @@ public class DcxpCommand implements CommandExecutor {
 					}
 					Player p = (Player) sender;
 					p.sendMessage(ChatColor.GRAY + "Otwieranie inv z teleportami...");
-					BungeeInventory.showInventory(p);
+					CraftDyrt.getBungeeInventory().showInventory(p);
 					return true;
 				}
 				if(args[0].equalsIgnoreCase("portals")) {
@@ -60,9 +59,9 @@ public class DcxpCommand implements CommandExecutor {
 					try {
 						plugin.reloadConfig();
 					} catch(YAMLException ex) {
-						DyrtCraftPlugin.sendMsgToOp("Nastapil blad z plikiem config.yml (YAMLException)", 1);
+						CraftDyrt.getDyrtCraft().sendMsgToOp("Nastapil blad z plikiem config.yml (YAMLException)", 1);
 					} catch(Exception ex) {
-						DyrtCraftPlugin.sendMsgToOp("Nastapil blad z plikiem config.yml (Nie znaleziono pliku). Tworzenie 1 pliku dla Ciebie w folderze", 1);
+						CraftDyrt.getDyrtCraft().sendMsgToOp("Nastapil blad z plikiem config.yml (Nie znaleziono pliku). Tworzenie 1 pliku dla Ciebie w folderze", 1);
 						plugin.saveDefaultConfig();
 					}
 					sender.sendMessage(ChatColor.DARK_GREEN + "Pomyslnie przeladowano plik config.yml!");
@@ -71,9 +70,9 @@ public class DcxpCommand implements CommandExecutor {
 					try {
 						//plugin.reloadPortals();
 					} catch(YAMLException ex) {
-						DyrtCraftPlugin.sendMsgToOp("Nastapil blad z plikiem portale.yml (YAMLException)", 1);
+						CraftDyrt.getDyrtCraft().sendMsgToOp("Nastapil blad z plikiem portale.yml (YAMLException)", 1);
 					} catch(Exception ex) {
-						DyrtCraftPlugin.sendMsgToOp("Nastapil blad z plikiem portale.yml (Nie znaleziono pliku). Tworzenie 1 pliku dla Ciebie w folderze", 1);
+						CraftDyrt.getDyrtCraft().sendMsgToOp("Nastapil blad z plikiem portale.yml (Nie znaleziono pliku). Tworzenie 1 pliku dla Ciebie w folderze", 1);
 						//plugin.saveDefaultPortals();
 					}
 					sender.sendMessage(ChatColor.DARK_GREEN + "Pomyslnie przeladowano plik portale.yml!");
@@ -106,7 +105,7 @@ public class DcxpCommand implements CommandExecutor {
 							
 							plugin.getConfig().set(serverName, null);
 							plugin.saveConfig();
-							DyrtCraftPlugin.sendMsgToOp(sender.getName() + " usunal portal na serwer " + serverName, 0);
+							CraftDyrt.getDyrtCraft().sendMsgToOp(sender.getName() + " usunal portal na serwer " + serverName, 0);
 							return true;
 						} else {
 							sender.sendMessage(ChatColor.RED + "Nie znaleziono portalu o nazwie \"" + serverName + "\"!");
@@ -137,7 +136,7 @@ public class DcxpCommand implements CommandExecutor {
 						plugin.getConfig().set("portale." + serverName + "2.y", null);
 						plugin.getConfig().set("portale." + serverName + "2.z", null);
 						plugin.saveConfig();
-						DyrtCraftPlugin.sendMsgToOp(sender.getName() + " utworzyl portal do serwera " + serverName, 0);
+						CraftDyrt.getDyrtCraft().sendMsgToOp(sender.getName() + " utworzyl portal do serwera " + serverName, 0);
 						return true;
 					} else {
 						return erPortalsArg(sender);

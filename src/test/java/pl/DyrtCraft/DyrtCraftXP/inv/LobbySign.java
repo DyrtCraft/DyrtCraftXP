@@ -9,8 +9,8 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import pl.DyrtCraft.DyrtCraftXP.CraftDyrt;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
-import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
 
 public class LobbySign implements Listener {
 
@@ -48,7 +48,7 @@ public class LobbySign implements Listener {
 			if(s.getLine(1).equalsIgnoreCase(ChatColor.DARK_GREEN + "do"));
 			if(s.getLine(2).equalsIgnoreCase(ChatColor.DARK_GREEN + "DyrtCraft"));
 			if(s.getLine(3).equalsIgnoreCase(ChatColor.DARK_GREEN + "Lobby serwer")) {
-				Bungee.connect(e.getPlayer(), "Lobby", "lobby");
+				CraftDyrt.getBungeeCord().connect(e.getPlayer(), "Lobby", "lobby");
 			}
 		}
 	}

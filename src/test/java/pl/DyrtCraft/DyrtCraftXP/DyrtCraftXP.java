@@ -7,8 +7,6 @@ import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
 public class DyrtCraftXP extends JavaPlugin {
 	
 	static DyrtCraftXP instance;
-	String authors = "TheMolkaPL";
-	String version = "Alpha 1.1.6 - SNAPSHOT BUILD 03";
 	
 	// Dane do SQL
 	/* adres */ //String address = getConfig().getString("sql.address");
@@ -18,7 +16,7 @@ public class DyrtCraftXP extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		getLogger().info("Ladowanie DyrtCraftXP v" + getDescription().getVersion() + " by " + getDescription().getAuthors() + "...");
+		getLogger().info("Ladowanie " + getDescription().getFullName() + "...");
 		
 		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new Bungee(this));
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -30,7 +28,7 @@ public class DyrtCraftXP extends JavaPlugin {
 		
 		//new MySQL(this, address, login, password);
 		
-		getLogger().info("Zaladowano DyrtCraftXP wersja " + getDescription().getVersion());
+		getLogger().info("Zaladowano " + getDescription().getFullName() + "!");
 	}
 	
 	@Override
@@ -38,16 +36,8 @@ public class DyrtCraftXP extends JavaPlugin {
 		saveConfig();
 	}
 	
-	public String getAuthors() {
-		return authors;
-	}
-	
 	public static DyrtCraftXP getInstance() {
 		return instance;
-	}
-	
-	public String getVersion() {
-		return version;
 	}
 	
 	public void registerCommands() {
@@ -56,9 +46,11 @@ public class DyrtCraftXP extends JavaPlugin {
 	}
 	
 	public void registerListeners() {
+		getLogger().info("[DyrtCraftXP] Rejestrowanie listenerów...");
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.api.Bungee(this), this);
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.LobbySign(this), this);
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.TeleportInventory(this), this);
+		getLogger().info("[DyrtCraftXP] Zarejestrowano listenery!");
 	}
 	
 }
