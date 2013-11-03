@@ -3,6 +3,9 @@ package pl.DyrtCraft.DyrtCraftXP;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
+import pl.DyrtCraft.DyrtCraftXP.command.DcxpCommand;
+import pl.DyrtCraft.DyrtCraftXP.command.HubCommand;
+import pl.DyrtCraft.DyrtCraftXP.command.XpCommand;
 
 public class DyrtCraftXP extends JavaPlugin {
 	
@@ -41,8 +44,9 @@ public class DyrtCraftXP extends JavaPlugin {
 	}
 	
 	public void registerCommands() {
-		getCommand("dcxp").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.DcxpCommand(this));
-		getCommand("xp").setExecutor(new pl.DyrtCraft.DyrtCraftXP.command.XpCommand(this));
+		getCommand("dcxp").setExecutor(new DcxpCommand(this));
+		getCommand("hub").setExecutor(new HubCommand(this));
+		getCommand("xp").setExecutor(new XpCommand(this));
 	}
 	
 	public void registerListeners() {

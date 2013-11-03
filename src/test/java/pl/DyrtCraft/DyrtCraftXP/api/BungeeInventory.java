@@ -26,7 +26,7 @@ public class BungeeInventory {
 	 * @since A
 	 * @return Inventory TeleportInventory
 	 */
-	public Inventory getInventory() {
+	public static Inventory getInventory() {
 		return TeleportInventory.inv;
 	}
 
@@ -37,7 +37,7 @@ public class BungeeInventory {
 	 * @see TeleportInventory
 	 * @see Bungee#connect(Player, String, String)
 	 */
-	public void showInventory(Player player) {
+	public static void showInventory(Player player) {
 		PlayerOpenTeleportInvEvent event = new PlayerOpenTeleportInvEvent(getInventory(), player);
 		Bukkit.getServer().getPluginManager().callEvent(event);
 		

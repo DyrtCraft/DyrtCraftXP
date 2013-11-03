@@ -7,8 +7,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import pl.DyrtCraft.DyrtCraftXP.CraftDyrt;
+import pl.DyrtCraft.DyrtCraftXP.DyrtCraftPlugin;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
+import pl.DyrtCraft.DyrtCraftXP.api.Database;
 import pl.DyrtCraft.DyrtCraftXP.api.XP;
 
 /**
@@ -37,7 +38,7 @@ public class XpCommand implements CommandExecutor {
 				// Jezeli wyslal gracz
 				Player p = (Player) sender;
 				// Pokaz ilosc XP
-				sender.sendMessage(CraftDyrt.getXp().showXp(p.toString()));
+				sender.sendMessage(XP.showXp(p.toString()));
 				return true;
 			}
 			// Liczba argumentow - 1
@@ -56,7 +57,7 @@ public class XpCommand implements CommandExecutor {
 		        }
 				// Jezeli wyslal gracz
 				// Pokaz ilosc XP
-		        sender.sendMessage(CraftDyrt.getXp().showXp(gracz.toString()));
+		        sender.sendMessage(XP.showXp(gracz.toString()));
 		        return true;
 			}
 			// Liczba argumentow - 2
@@ -68,8 +69,8 @@ public class XpCommand implements CommandExecutor {
 				}
 				// Argument 1: create
 				if(args[1].equalsIgnoreCase("create")) {
-					CraftDyrt.getDatabase().createNewPlayer(args[0]);
-					CraftDyrt.getDyrtCraft().sendMsgToOp(sender.getName() + " stworzyl nowe konto dla gracza " + args[0], 1);
+					Database.createNewPlayer(args[0]);
+					DyrtCraftPlugin.sendMsgToOp(sender.getName() + " stworzyl nowe konto dla gracza " + args[0], 1);
 					return true;
 				} else {
 					sender.sendMessage(ChatColor.RED + "Popelniono blad! Spróbuj jeszcze raz!");
@@ -93,8 +94,8 @@ public class XpCommand implements CommandExecutor {
 						}
 						xp = Integer.parseInt(args[2]);
 						Player player = Bukkit.getPlayer(args[0]);
-						CraftDyrt.getXp().delXp(player, xp, "Usunieto " + xp + " XP przez " + sender.getName());
-						CraftDyrt.getDyrtCraft().sendMsgToOp(sender.getName() + " usunal graczowi " + args[0] + xp + " XP", 1);
+						XP.delXp(player, xp, "Usunieto " + xp + " XP przez " + sender.getName());
+						DyrtCraftPlugin.sendMsgToOp(sender.getName() + " usunal graczowi " + args[0] + xp + " XP", 1);
 						return true;
 					} catch(NumberFormatException ex) {
 						sender.sendMessage(ChatColor.RED + "Argumentem \"" + args[2] + "\" musi byc liczba!");
@@ -110,8 +111,8 @@ public class XpCommand implements CommandExecutor {
 						}
 						xp = Integer.parseInt(args[2]);
 						Player player = Bukkit.getPlayer(args[0]);
-						CraftDyrt.getXp().addXp(player, xp, "Dodano " + xp + "XP przez " + sender.getName());
-						CraftDyrt.getDyrtCraft().sendMsgToOp(sender.getName() + " dodal graczowi " + args[0] + xp + " XP", 1);
+						XP.addXp(player, xp, "Dodano " + xp + "XP przez " + sender.getName());
+						DyrtCraftPlugin.sendMsgToOp(sender.getName() + " dodal graczowi " + args[0] + xp + " XP", 1);
 						return true;
 					} catch(NumberFormatException ex) {
 						sender.sendMessage(ChatColor.RED + "Argumentem \"" + args[2] + "\" musi byc liczba!");
@@ -127,9 +128,9 @@ public class XpCommand implements CommandExecutor {
 						}
 						xp = Integer.parseInt(args[2]);
 						Player player = Bukkit.getPlayer(args[0]);
-						CraftDyrt.getXp().delXp(player, Integer.MAX_VALUE, "");
-						CraftDyrt.getXp().addXp(player, xp, "Ustawiono " + xp + "XP przez " + sender.getName());
-						CraftDyrt.getDyrtCraft().sendMsgToOp(sender.getName() + " ustawil graczowi " + args[0] + xp + " XP", 1);
+						XP.delXp(player, Integer.MAX_VALUE, "");
+						XP.addXp(player, xp, "Ustawiono " + xp + "XP przez " + sender.getName());
+						DyrtCraftPlugin.sendMsgToOp(sender.getName() + " ustawil graczowi " + args[0] + xp + " XP", 1);
 						return true;
 					} catch(NumberFormatException ex) {
 						sender.sendMessage(ChatColor.RED + "Argumentem \"" + args[2] + "\" musi byc liczba!");

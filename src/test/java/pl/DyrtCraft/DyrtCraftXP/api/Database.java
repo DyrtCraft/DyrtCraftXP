@@ -16,31 +16,31 @@ public class Database {
 		plugin = dyrtCraftXP;
 	}
 	
-	public void createNewPlayer(String player) {
+	public static void createNewPlayer(String player) {
 		String lastServer = plugin.getConfig().getString("nazwa-serwera");
 		
 		mySql.addNewPlayer(player, lastServer);
 	}
 	
-	public String getLastLogout(String player) {
+	public static String getLastLogout(String player) {
 		String lastLogout = mySql.getLastLogout(player);
 		return lastLogout;
 	}
 	
-	public String getLastServer(String player) {
+	public static String getLastServer(String player) {
 		String lastServer = mySql.getLastServer(player);
 		return lastServer;
 	}
 	
-	public XP getXP() {
+	public static XP getXP() {
 		return xp;
 	}
 	
-	public void setLastLogout(String player, String time) {
+	public static void setLastLogout(String player, String time) {
 		mySql.setLastLogout(player, time);
 	}
 	
-	public void setLastServer(String player, String server) {
+	public static void setLastServer(String player, String server) {
 		mySql.setLastServer(player, server);
 	}
 	
