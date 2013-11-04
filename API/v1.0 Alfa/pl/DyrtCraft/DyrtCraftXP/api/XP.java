@@ -40,8 +40,8 @@ public class XP {
 		}
 		int xpRazem = mySql.getXP(player.toString())-xp;
 		mySql.setXP(player.toString(), xpRazem);*/
-		player.sendMessage(ChatColor.RED + "Straciles " + xp + " XP za: " + powod + ".");
-		player.sendMessage(XP.showXp(player.toString()));
+		player.sendMessage(ChatColor.RED + "Straciles " + event.getAmount() + " XP za: " + event.getReason() + ".");
+		player.sendMessage(XP.showXp(event.getPlayer().getName()));
 		return true;
 	}
 	

@@ -16,30 +16,83 @@ public class Database {
 		plugin = dyrtCraftXP;
 	}
 	
+	/**
+	 * Dodaj nowego gracza do bazy danych
+	 * 
+	 * @author TheMolkaPL
+	 * @since Alpha 1.6
+	 * 
+	 * @param player Nick nowego gracza
+	 */
 	public static void createNewPlayer(String player) {
 		String lastServer = plugin.getConfig().getString("nazwa-serwera");
 		
 		mySql.addNewPlayer(player, lastServer);
 	}
 	
+	/**
+	 * Zdobadz ostatni czas wylogowania z serwerowni
+	 * 
+	 * @author TheMolkaPL
+	 * @since Alpha 1.6
+	 * 
+	 * @param player Nick gracza
+	 * @return String Czas ostatniego wylogowania
+	 */
 	public static String getLastLogout(String player) {
 		String lastLogout = mySql.getLastLogout(player);
 		return lastLogout;
 	}
 	
+	/**
+	 * Zdobadz ostatni serwer wylogowania z serwerowni
+	 * 
+	 * @author TheMolkaPL
+	 * @since Alpha 1.6
+	 * 
+	 * @param player Nick gracza
+	 * @return String Nazwa serwera ostatniego wylogowania
+	 */
 	public static String getLastServer(String player) {
 		String lastServer = mySql.getLastServer(player);
 		return lastServer;
 	}
 	
+	
+	/**
+	 * Zdobadz XP
+	 * 
+	 * @author TheMolkaPL
+	 * @since Alpha 1.6
+	 * 
+	 * @return {@link XP}
+	 */
 	public static XP getXP() {
 		return xp;
 	}
 	
+	/**
+	 * Ustaw ostatni czas wylogowania
+	 * 
+	 * @author TheMolkaPL
+	 * @since Alpha 1.6
+	 * 
+	 * @param player Nick gracza
+	 * @param time Czas wylogowania
+	 */
 	public static void setLastLogout(String player, String time) {
 		mySql.setLastLogout(player, time);
 	}
 	
+	/**
+	 * Ustaw nazwe ostatniego serwera wylogowania
+	 * 
+	 * @author TheMolkaPL
+	 * @since Alpha 1.6
+	 * 
+	 * @param player Nick gracza
+	 * @param server Nazwa serwera wylogowania
+	 */
 	public static void setLastServer(String player, String server) {
 		mySql.setLastServer(player, server);
 	}

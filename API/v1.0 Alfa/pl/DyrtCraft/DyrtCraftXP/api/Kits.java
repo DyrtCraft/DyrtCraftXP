@@ -16,7 +16,15 @@ public class Kits {
 	public Kits(DyrtCraftXP dyrtCraftXP) {
 		plugin = dyrtCraftXP;
 	}
-
+	
+	/**
+	 * Kompas do wybrania serwera DyrtCraft Network
+	 * 
+	 * @author TheMolkaPL
+	 * @since Alpha 1.6
+	 * 
+	 * @return ItemStack Kompas (COMPASS)
+	 */
 	public static ItemStack compass() {
 		ItemStack i = new ItemStack(Material.COMPASS, 1);
 		ItemMeta iMeta = i.getItemMeta();
@@ -26,6 +34,14 @@ public class Kits {
 		return i;
 	}
 	
+	/**
+	 * Ucieczka do serwera Lobby DyrtCraft Network
+	 * 
+	 * @author TheMolkaPL
+	 * @since Alpha 1.6
+	 * 
+	 * @return ItemStack Ucieczka (EYE_OF_ENDER)
+	 */
 	public static ItemStack lobby() {
 		ItemStack i = new ItemStack(Material.EYE_OF_ENDER, 1);
 		ItemMeta iMeta = i.getItemMeta();

@@ -1,11 +1,10 @@
 package pl.DyrtCraft.DyrtCraftXP.api;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
-import pl.DyrtCraft.DyrtCraftXP.events.PlayerOpenTeleportInvEvent;
+
 import pl.DyrtCraft.DyrtCraftXP.inv.TeleportInventory;
 
 /**
@@ -38,12 +37,7 @@ public class BungeeInventory {
 	 * @see Bungee#connect(Player, String, String)
 	 */
 	public static void showInventory(Player player) {
-		PlayerOpenTeleportInvEvent event = new PlayerOpenTeleportInvEvent(getInventory(), player);
-		Bukkit.getServer().getPluginManager().callEvent(event);
-		
-		if(!event.isCancelled()) {
-			ti.show(player);
-		}
+		ti.show(player);
 	}
 	
 }

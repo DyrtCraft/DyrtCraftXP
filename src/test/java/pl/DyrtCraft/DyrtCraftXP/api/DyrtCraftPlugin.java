@@ -1,14 +1,18 @@
-package pl.DyrtCraft.DyrtCraftXP;
+package pl.DyrtCraft.DyrtCraftXP.api;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
 
 public class DyrtCraftPlugin {
 	
 	public DyrtCraftPlugin(DyrtCraftXP dyrtCraftXP) {}
 	
 	/**
+	 * Wyslij powiadomienie do operatora serwera
+	 * 
 	 * @author TheMolkaPL
 	 * @since Alpha 1.0.0
 	 * @param wiadomosc Wiadomosc do operatorów
@@ -16,7 +20,7 @@ public class DyrtCraftPlugin {
 	 */
 	public static void sendMsgToOp(String wiadomosc, int priorytet) {
 		for(Player op : Bukkit.getOnlinePlayers()) {
-			if(op.isOp()) {
+			if(op.isOp() || op.hasPermission("dyrtcraftxp.notify")) {
 				try {
 					if(priorytet == 0) {
 						op.sendMessage(ChatColor.AQUA + "* " + wiadomosc);

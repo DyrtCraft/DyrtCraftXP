@@ -2,14 +2,15 @@ package pl.DyrtCraft.DyrtCraftXP;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import pl.DyrtCraft.DyrtCraftXP.api.API;
 import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
 import pl.DyrtCraft.DyrtCraftXP.command.DcxpCommand;
-import pl.DyrtCraft.DyrtCraftXP.command.HubCommand;
+import pl.DyrtCraft.DyrtCraftXP.command.LobbyCommand;
 import pl.DyrtCraft.DyrtCraftXP.command.XpCommand;
 
 public class DyrtCraftXP extends JavaPlugin {
 	
-	static DyrtCraftXP instance;
+	private static DyrtCraftXP instance;
 	
 	// Dane do SQL
 	/* adres */ //String address = getConfig().getString("sql.address");
@@ -21,15 +22,27 @@ public class DyrtCraftXP extends JavaPlugin {
 	public void onEnable() {
 		getLogger().info("Ladowanie " + getDescription().getFullName() + "...");
 		
+		//******************************************************************************//
+		
+		getLogger().info("Implementacja API " + API.getAPIVersion() + " by " + API.getAPIAuthors());
+		
+		//******************************************************************************//
+		
 		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new Bungee(this));
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		
-		saveDefaultConfig();
+		//******************************************************************************//
 		
+		saveDefaultConfig();
 		registerCommands();
 		registerListeners();
 		
+		//******************************************************************************//
+		
+		getLogger().info("Ladowanie klasy MySQL.class...");
 		//new MySQL(this, address, login, password);
+		
+		//******************************************************************************//
 		
 		getLogger().info("Zaladowano " + getDescription().getFullName() + "!");
 	}
@@ -45,16 +58,16 @@ public class DyrtCraftXP extends JavaPlugin {
 	
 	public void registerCommands() {
 		getCommand("dcxp").setExecutor(new DcxpCommand(this));
-		getCommand("hub").setExecutor(new HubCommand(this));
+		getCommand("lobby").setExecutor(new LobbyCommand(this));
 		getCommand("xp").setExecutor(new XpCommand(this));
 	}
 	
 	public void registerListeners() {
-		getLogger().info("[DyrtCraftXP] Rejestrowanie listenerów...");
+		getLogger().info("Rejestrowanie listenerów...");
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.api.Bungee(this), this);
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.LobbySign(this), this);
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.TeleportInventory(this), this);
-		getLogger().info("[DyrtCraftXP] Zarejestrowano listenery!");
+		getLogger().info("Zarejestrowano listenery!");
 	}
 	
 }

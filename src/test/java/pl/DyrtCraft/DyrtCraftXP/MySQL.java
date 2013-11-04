@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import pl.DyrtCraft.DyrtCraftXP.api.Database;
+import pl.DyrtCraft.DyrtCraftXP.api.DyrtCraftPlugin;
 import pl.DyrtCraft.DyrtCraftXP.api.XP;
 
 /**

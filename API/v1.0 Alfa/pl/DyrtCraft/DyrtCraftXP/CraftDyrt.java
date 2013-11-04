@@ -4,21 +4,34 @@ import java.util.List;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import pl.DyrtCraft.DyrtCraftXP.api.API;
 import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
 import pl.DyrtCraft.DyrtCraftXP.api.BungeeInventory;
 import pl.DyrtCraft.DyrtCraftXP.api.Database;
+import pl.DyrtCraft.DyrtCraftXP.api.DyrtCraftPlugin;
 import pl.DyrtCraft.DyrtCraftXP.api.Kits;
 import pl.DyrtCraft.DyrtCraftXP.api.XP;
 
 public class CraftDyrt {
 	
+	private static API api;
 	private static Bungee bungee;
 	private static BungeeInventory bungeeInventory;
 	private static Database database;
 	private static DyrtCraftPlugin dyrtCratPlugin;
-	private static JavaPlugin plugin;
-	public static Kits kits;
+	private static JavaPlugin javaPlugin;
+	private static Kits kits;
 	private static XP xp;
+	
+	DyrtCraftXP plugin;
+	
+	public CraftDyrt(DyrtCraftXP dyrtCraftXP) {
+		plugin = dyrtCraftXP;
+	}
+	
+	public static API getPluginAPI() {
+		return api;
+	}
 	
 	public static Bungee getBungeeCord() {
 		return bungee;
@@ -41,7 +54,7 @@ public class CraftDyrt {
 	}
 	
 	public static List<String> getPluginAuthors() {
-		return plugin.getDescription().getAuthors();
+		return javaPlugin.getDescription().getAuthors();
 	}
 	
 	public static String getPluginFullName() {
@@ -57,11 +70,11 @@ public class CraftDyrt {
 	}
 	
 	public static String getPluginVersion() {
-		return plugin.getDescription().getVersion();
+		return javaPlugin.getDescription().getVersion();
 	}
 	
 	public static String getPluginWebsite() {
-		return plugin.getDescription().getWebsite();
+		return javaPlugin.getDescription().getWebsite();
 	}
 	
 	public static XP getXp() {

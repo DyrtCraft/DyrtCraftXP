@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 import org.yaml.snakeyaml.error.YAMLException;
 
 import pl.DyrtCraft.DyrtCraftXP.CraftDyrt;
-import pl.DyrtCraft.DyrtCraftXP.DyrtCraftPlugin;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
 import pl.DyrtCraft.DyrtCraftXP.api.BungeeInventory;
+import pl.DyrtCraft.DyrtCraftXP.api.DyrtCraftPlugin;
 
 public class DcxpCommand implements CommandExecutor {
 

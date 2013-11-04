@@ -10,18 +10,18 @@ import org.bukkit.entity.Player;
 import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
 import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
 
-public class HubCommand implements CommandExecutor {
+public class LobbyCommand implements CommandExecutor {
 	
 	DyrtCraftXP plugin;
 	String lobby = "lobby";
 	
-	public HubCommand(DyrtCraftXP dyrtCraftXP) {
+	public LobbyCommand(DyrtCraftXP dyrtCraftXP) {
 		plugin = dyrtCraftXP;
 	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if(command.getName().equalsIgnoreCase("hub") || command.getName().equalsIgnoreCase("lobby")) {
+		if(command.getName().equalsIgnoreCase("lobby") || command.getName().equalsIgnoreCase("hub")) {
 			// Liczba argumentow - 0
 			if(args.length == 0) {
 				// Jezeli wyslano z konsoli
@@ -78,11 +78,13 @@ public class HubCommand implements CommandExecutor {
 		// Wiadomosc do wysylacacego (operatora)
 		sender.sendMessage(ChatColor.RED + "Wyrzucanie wszystkich graczy z serwera...");
 		for(Player gracze : Bukkit.getOnlinePlayers()) {
-			// Polacz z serwerem lobby
-			sender.sendMessage(ChatColor.RED + "Wyrzucanie gracza " + gracze.getName() + "...");
-			Bungee.connect(gracze, "Lobby", lobby);
-			gracze.sendMessage(ChatColor.GOLD + "Zostales przeniesiony na serwer Lobby.");
-			return;
+			// Jezeli na serwerze jest wiecej graczy niz 0
+			if(Bukkit.getOnlinePlayers().length > 0) {
+				// Polacz z serwerem lobby
+				sender.sendMessage(ChatColor.RED + "Wyrzucanie gracza " + gracze.getName() + "...");
+				Bungee.connect(gracze, "Lobby", lobby);
+				gracze.sendMessage(ChatColor.GOLD + "Zostales przeniesiony na serwer Lobby przez " + sender.getName() + ".");
+			}
 		}
 	}
 	
