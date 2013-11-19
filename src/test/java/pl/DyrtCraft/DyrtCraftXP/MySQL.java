@@ -13,7 +13,7 @@ import pl.DyrtCraft.DyrtCraftXP.api.XP;
 
 /**
  * Klasa do MySQL
- * @author TheMolkaPL, Ziszek
+ * @author TheMolkaPL
  * @see Database
  * @see XP
  */

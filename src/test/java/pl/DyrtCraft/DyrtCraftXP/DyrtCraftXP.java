@@ -1,5 +1,7 @@
 package pl.DyrtCraft.DyrtCraftXP;
 
+import me.confuser.barapi.BarAPI;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import pl.DyrtCraft.DyrtCraftXP.api.API;
@@ -21,10 +23,20 @@ public class DyrtCraftXP extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		getLogger().info("Ladowanie " + getDescription().getFullName() + "...");
+		long loadTime = System.currentTimeMillis();
 		
 		//******************************************************************************//
 		
 		getLogger().info("Implementacja API " + API.getAPIVersion() + " by " + API.getAPIAuthors());
+		
+		//******************************************************************************//
+		
+		getLogger().info("Ladowanie BarAPI v1.0 by confuser...");
+		BarAPI bar = null;
+		bar = new BarAPI();
+		
+		bar.loadBarApi();
+		getLogger().info("Zaladowano BarAPI by confuser!");
 		
 		//******************************************************************************//
 		
@@ -44,7 +56,8 @@ public class DyrtCraftXP extends JavaPlugin {
 		
 		//******************************************************************************//
 		
-		getLogger().info("Zaladowano " + getDescription().getFullName() + "!");
+		long finLoadTime = System.currentTimeMillis() - loadTime;
+		getLogger().info("Zaladowano " + getDescription().getFullName() + " w " + finLoadTime + " ms!");
 	}
 	
 	@Override
@@ -67,6 +80,8 @@ public class DyrtCraftXP extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.api.Bungee(this), this);
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.LobbySign(this), this);
 		getServer().getPluginManager().registerEvents(new pl.DyrtCraft.DyrtCraftXP.inv.TeleportInventory(this), this);
+		
+		getServer().getPluginManager().registerEvents(new BarAPI(), this);
 		getLogger().info("Zarejestrowano listenery!");
 	}
 	

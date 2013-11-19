@@ -33,6 +33,7 @@ public class TeleportInventory implements Listener {
 	public static Inventory inv;
 	private ItemStack hc, mz, pb, rpg, sb, sg, quit, minigames, inne, inne_ts, inne_www, inne_forum, inne_fb, inne_github, inne_zamknij;
 	
+	@SuppressWarnings("deprecation")
 	public TeleportInventory(DyrtCraftXP dyrtCraftXP) {
 		plugin=dyrtCraftXP;
 		
@@ -120,6 +121,7 @@ public class TeleportInventory implements Listener {
 	}
 	
 	// Książka
+	@SuppressWarnings("deprecation")
 	private ItemStack createItem(String name, String adress) {
 		ItemStack i = new ItemStack(Material.getMaterial(386));
 		ItemMeta im = i.getItemMeta();

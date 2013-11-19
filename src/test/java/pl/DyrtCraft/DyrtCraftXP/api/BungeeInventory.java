@@ -22,7 +22,7 @@ public class BungeeInventory {
 	
 	/**
 	 * @author TheMolkaPL
-	 * @since A
+	 * @since Alpha 1.1.4
 	 * @return Inventory TeleportInventory
 	 */
 	public static Inventory getInventory() {
