@@ -1,12 +1,12 @@
-package pl.DyrtCraft.DyrtCraftXP.inv;
+package pl.dyrtcraft.xp.inv;
 
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,11 +18,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.Wool;
+import org.bukkit.material.SpawnEgg;
 
-import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
-import pl.DyrtCraft.DyrtCraftXP.api.Bungee;
-import pl.DyrtCraft.DyrtCraftXP.api.BungeeInventory;
+import pl.dyrtcraft.DyrtCraft;
+import pl.dyrtcraft.Server;
+import pl.dyrtcraft.xp.DyrtCraftXP;
 
 public class TeleportInventory implements Listener {
 
@@ -30,27 +30,32 @@ public class TeleportInventory implements Listener {
 	PlayerQuitEvent playerQuitEvent;
 	static DyrtCraftXP pluginStatic;
 	
-	private static Inventory inv;
-	private ItemStack hc, mz, pb, rpg, sb, sg, quit, minigames, inne, inne_ts, inne_www, inne_forum;
+	public static Inventory inv;
+	private ItemStack hc, mz, pb, rpg, sb, sg, quit, minigames, inne, inne_ts, inne_www, inne_forum, inne_fb, inne_github, inne_zamknij;
 	
+	@SuppressWarnings("deprecation")
 	public TeleportInventory(DyrtCraftXP dyrtCraftXP) {
 		plugin=dyrtCraftXP;
 		
 		inv = Bukkit.getServer().createInventory(null, 27, ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "DyrtCraft" + ChatColor.DARK_GRAY + " Wybierz serwer:");
 		
-		hc = createItem(DyeColor.RED, ChatColor.RED + "Hardcore", "Â§bSprÃ³buj oryginalnego Apokaliptycznego hardcore'a!");
-		mz = createItem(DyeColor.GREEN, ChatColor.DARK_GREEN + "MineZ", "Â§bPrzetrwaj plage zombie!");
-		pb = createItem(DyeColor.WHITE, ChatColor.WHITE + "Paintball", "");
-		rpg = createItem(DyeColor.BLUE, ChatColor.BLUE + "RPG", "Â§1RPG, frakcje i klasy");
-		sb = createItem(DyeColor.GRAY, ChatColor.GRAY + "SkyBlock", "Â§bGotowy(a) na SkyBlock w kosmosie?");
-		sg = createItem(DyeColor.YELLOW, ChatColor.YELLOW + "Survival Games", "Â§bSG z autorskimi mapami!");
+		hc = createItem(EntityType.SPIDER, ChatColor.RED + "Hardcore", "§bSprÃ³buj oryginalnego Apokaliptycznego hardcore'a!");
+		mz = createItem(EntityType.ZOMBIE, ChatColor.DARK_GREEN + "MineZ", "§bPrzetrwaj plage zombie!");
+		pb = createItem(EntityType.GHAST, ChatColor.WHITE + "Paintball", "");
+		rpg = createItem(EntityType.SQUID, ChatColor.BLUE + "RPG", "§bRPG, frakcje i klasy");
+		sb = createItem(EntityType.COW, ChatColor.GRAY + "SkyBlock", "§bGotowy(a) na SkyBlock w kosmosie?");
+		sg = createItem(EntityType.BLAZE, ChatColor.YELLOW + "Survival Games", "§bSG z autorskimi mapami!");
 		
-		quit = createQuitItem("Serwer Lobby", "Â§bKliknij, aby powrÃ³cic na serwer Lobby");
-		minigames = createItem(Material.FIRE, "MiniGames", "Â§7Serwery MiniGames");
-		inne = createItem(Material.FIRE, "Inne serwery", "Â§7Inne serwery");
-		inne_ts = createItem("Nasz TeamSpeak 3", "Â§bdyrtcraft.pl");
-		inne_www = createItem("Nasza strona WWW", "Â§bhttp://dyrtcraft.pl");
-		inne_forum = createItem("Nasze forum", "Â§bhttp://dyrtcraft.pl/forum");
+		quit = createQuitItem("Serwer Lobby", "§bKliknij, aby powrócic na serwer Lobby");
+		inne_zamknij = createQuitItem("Zamknij okno", "§bZamknij okno wyboru serwerÃ³w");
+		minigames = createItem(Material.getMaterial(385), "MiniGames", "§7Serwery MiniGames");
+		inne = createItem(Material.getMaterial(385), "Inne serwery", "§7Inne serwery");
+		
+		inne_ts = createItem("Nasz TeamSpeak 3", "§bdyrtcraft.pl");
+		inne_www = createItem("Nasza strona WWW", "§bhttp://dyrtcraft.pl");
+		inne_forum = createItem("Nasze forum", "§bhttp://dyrtcraft.pl/forum");
+		inne_fb = createItem("Nasz Facebook", "§bhttps://facebook.com/DyrtCraftNetwork");
+		inne_github = createItem("Nasz GitHub", "§bhttps://github.com/DyrtCraft");
 		
 		/*
 		 * | 00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 |
@@ -74,21 +79,24 @@ public class TeleportInventory implements Listener {
 		inv.setItem(18, inne_ts);
 		inv.setItem(19, inne_www);
 		inv.setItem(20, inne_forum);
+		inv.setItem(21, inne_fb);
+		inv.setItem(22, inne_github);
 		
 		// Lobby
+		inv.setItem(8, inne_zamknij);
 		inv.setItem(26, quit);
 	}
 	
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
-		// Otwieranie inv po naciÅ›niÄ™ciu na tabliczkÄ™
+		// Otwieranie inv po nacisnieciu na tabliczki
 		try {
 			if(!(e.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
 			if(e.getClickedBlock().getState() instanceof Sign) {
 				Sign s = (Sign) e.getClickedBlock().getState();
-				if(s.getLine(1).equalsIgnoreCase("Lista serwerÃ³w"))
+				if(s.getLine(1).equalsIgnoreCase("Lista serwerów"))
 				if(s.getLine(2).equalsIgnoreCase(ChatColor.UNDERLINE + "" + ChatColor.BOLD + "DyrtCraft")) {
-					BungeeInventory.showInventory(e.getPlayer());
+					show(e.getPlayer());
 				}
 			}
 		} catch(NullPointerException ex) {}
@@ -104,7 +112,7 @@ public class TeleportInventory implements Listener {
 				e.getPlayer().sendMessage(ChatColor.RED + "Ojj, brak odpowiednich uprawnien!");
 			} else {
 				e.setLine(0, "");
-				e.setLine(1, "Lista serwerÃ³w");
+				e.setLine(1, "Lista serwerów");
 				e.setLine(2, ChatColor.UNDERLINE + "" + ChatColor.BOLD + "DyrtCraft");
 				e.setLine(3, "");
 				e.getPlayer().sendMessage(ChatColor.DARK_GREEN + "Pomyslnie utworzono tabliczke!");
@@ -112,9 +120,10 @@ public class TeleportInventory implements Listener {
 		}
 	}
 	
-	// KsiÄ…Å¼ka
+	// Ksiazka
+	@SuppressWarnings("deprecation")
 	private ItemStack createItem(String name, String adress) {
-		ItemStack i = new ItemStack(Material.BOOK);
+		ItemStack i = new ItemStack(Material.getMaterial(386));
 		ItemMeta im = i.getItemMeta();
 		im.setDisplayName(name);
 		im.setLore(Arrays.asList(adress));
@@ -122,9 +131,9 @@ public class TeleportInventory implements Listener {
 		return i;
 	}
 	
-	// WeÅ‚na
-	private ItemStack createItem(DyeColor dc, String name, String description) {
-		ItemStack i = new Wool(dc).toItemStack(1);
+	// Welna
+	private ItemStack createItem(EntityType dc, String name, String description) {
+		ItemStack i = new SpawnEgg(dc).toItemStack(1);
 		ItemMeta im = i.getItemMeta();
 		im.setDisplayName(name);
 		im.setLore(Arrays.asList("Kliknij, aby przejsc na serwer.", description));
@@ -142,7 +151,7 @@ public class TeleportInventory implements Listener {
 		return i;
 	}
 	
-	// PerÅ‚a endermana (teleport do lobby)
+	// Perla endermana (teleport do lobby)
 	private ItemStack createQuitItem(String name, String name2) {
 		ItemStack q = new ItemStack(Material.EYE_OF_ENDER);
 		ItemMeta im = q.getItemMeta();
@@ -159,7 +168,7 @@ public class TeleportInventory implements Listener {
 	 * 
 	 * @param player Gracz
 	 */
-	public static void show(Player player) {
+	public void show(Player player) {
 		player.openInventory(inv);
 	}
 	
@@ -170,46 +179,39 @@ public class TeleportInventory implements Listener {
 			Player p = (Player) e.getWhoClicked();
 		
 			if(!e.getInventory().getName().equalsIgnoreCase(inv.getName())) return;
+			e.setCancelled(true);
 			// Hardcore
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Hardcore")) {
-				e.setCancelled(true);
-				Bungee.connect(p, "Hardcore", "hardcore");
+				DyrtCraft.getMember(p).connect(Server.APOCALYPTO_HARDCORE);
 				e.getWhoClicked().closeInventory();
 			}
 			// MineZ
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("MineZ")) {
-				e.setCancelled(true);
-				Bungee.connect(p, "MineZ", "minez");
+				DyrtCraft.getMember(p).connect(Server.MINEZ);
 				e.getWhoClicked().closeInventory();
 			}
 			// Paintball
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Paintball")) {
-				e.setCancelled(true);
-				Bungee.connect(p, "Paintball", "pb");
+				DyrtCraft.getMember(p).connect(Server.PAINTBALL);
 				e.getWhoClicked().closeInventory();
 			}
-			// RPG
-			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("RPG")) {
-				e.setCancelled(true);
-				Bungee.connect(p, "RPG", "rpg");
+			// PvP
+			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("PvP")) {
+				DyrtCraft.getMember(p).connect(Server.PVP);
 				e.getWhoClicked().closeInventory();
 			}
 			// SkyBlock
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("SkyBlock")) {
-				e.setCancelled(true);
-				Bungee.connect(p, "SkyBlock", "skyblock");
-				e.getWhoClicked().closeInventory();
-			}
-			// Survival Games
-			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Survival Games")) {
-				e.setCancelled(true);
-				Bungee.connect(p, "Survival Games", "survivalgames");
+				DyrtCraft.getMember(p).connect(Server.SKYBLOCK);
 				e.getWhoClicked().closeInventory();
 			}
 			// Lobby
 			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Serwer Lobby")) {
-				e.setCancelled(true);
-				Bungee.connect(p, "Lobby", "lobby");
+				DyrtCraft.getMember(p).connect(Server.LOBBY);
+				e.getWhoClicked().closeInventory();
+			}
+			
+			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Zamknij okno")) {
 				e.getWhoClicked().closeInventory();
 			} else {
 				// W kazdym inny przypadku

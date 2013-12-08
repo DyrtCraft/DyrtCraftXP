@@ -1,20 +1,20 @@
 name: DyrtCraftXP
-version: Alpha 1.1.6 - SNAPSHOT BUILD 01
+version: Alpha 1.6 - SNAPSHOT BUILD 09 (Implementing BarAPI version 1.0)
 website: http://dyrtcraft.pl/
-author: TheMolkaPL
+authors: [confuser, TheMolkaPL]
 database: true
 description: Plugin stworzony specjalnie dla DyrtCraft Network!
 
-main: pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP
+main: pl.dyrtcraft.xp.DyrtCraftXP
 
 commands:
     dcxp:
         description: Komendy DyrtCraftXP
-        usage: /dcxp <inv|portals|reload|servers|version>
+        usage: /dcxp <inv|portals|reload|version>
     lobby:
-        description: Polacz sie z serwerem Lobby
+        description: Wróc na serwer Lobby DyrtCraft Network
         aliases: [hub]
-        usage: /lobby [-ALL|gracz]
+        usage: /lobby [gracz|-ALL]
     xp:
         description: Pokaz ilosc XP gracza
         usage: /xp [gracz] [[create]del|give|set <liczba>]

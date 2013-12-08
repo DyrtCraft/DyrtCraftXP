@@ -1,5 +1,4 @@
-wiadomosc-1: '&e Gracz {GRACZ} przeszedl na serwer {SERWER}.'
-nazwa-serwera: 'null'
+nazwa-serwera: 'Bez nazwy'
 sql:
     address:
     login:

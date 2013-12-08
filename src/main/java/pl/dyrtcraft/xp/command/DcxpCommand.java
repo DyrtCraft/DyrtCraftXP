@@ -1,4 +1,4 @@
-package pl.DyrtCraft.DyrtCraftXP.command;
+package pl.dyrtcraft.xp.command;
 
 import java.util.List;
 
@@ -9,9 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.yaml.snakeyaml.error.YAMLException;
 
-import pl.DyrtCraft.DyrtCraftXP.DyrtCraftPlugin;
-import pl.DyrtCraft.DyrtCraftXP.DyrtCraftXP;
-import pl.DyrtCraft.DyrtCraftXP.api.BungeeInventory;
+import pl.dyrtcraft.DyrtCraft;
+import pl.dyrtcraft.xp.DyrtCraftXP;
 
 public class DcxpCommand implements CommandExecutor {
 
@@ -30,7 +29,9 @@ public class DcxpCommand implements CommandExecutor {
 			if(args.length==1) {
 				if(args[0].equalsIgnoreCase("about") || args[0].equalsIgnoreCase("version")) {
 					sender.sendMessage(ChatColor.GOLD + " >==========[ " + ChatColor.BOLD + ChatColor.AQUA + "DyrtCraftXP" + ChatColor.RESET + ChatColor.GOLD + " ]==========< ");
+					sender.sendMessage(ChatColor.GOLD + "Wersja: " + plugin.getDescription().getVersion());
 					sender.sendMessage(ChatColor.GOLD + "Autor: " + plugin.getDescription().getAuthors());
+					sender.sendMessage(ChatColor.GOLD + "GitHub: " + plugin.getDescription().getWebsite());
 					sender.sendMessage(ChatColor.GOLD + " >==========[ " + ChatColor.BOLD + ChatColor.AQUA + "DyrtCraftXP" + ChatColor.RESET + ChatColor.GOLD + " ]==========< ");
 					return true;
 				}
@@ -43,9 +44,9 @@ public class DcxpCommand implements CommandExecutor {
 						plugin.getLogger().warning("Nie mozesz wykonac tej komendy z poziomu konsoli!");
 						return true;
 					}
-					Player p = (Player) sender;
-					p.sendMessage(ChatColor.GRAY + "Otwieranie inv z teleportami...");
-					BungeeInventory.showInventory(p);
+					Player player = (Player) sender;
+					player.sendMessage(ChatColor.GRAY + "Otwieranie inv z teleportami...");
+					player.openInventory(DyrtCraft.getProxy().getServerChooserInventory());
 					return true;
 				}
 				if(args[0].equalsIgnoreCase("portals")) {
@@ -60,27 +61,13 @@ public class DcxpCommand implements CommandExecutor {
 					try {
 						plugin.reloadConfig();
 					} catch(YAMLException ex) {
-						DyrtCraftPlugin.sendMsgToOp("Nastapil blad z plikiem config.yml (YAMLException)", 1);
+						DyrtCraft.getUtils().sendNotify("Nastapil blad z plikiem config.yml (YAMLException)", true);
 					} catch(Exception ex) {
-						DyrtCraftPlugin.sendMsgToOp("Nastapil blad z plikiem config.yml (Nie znaleziono pliku). Tworzenie 1 pliku dla Ciebie w folderze", 1);
+						DyrtCraft.getUtils().sendNotify("Nastapil blad z plikiem config.yml (Nie znaleziono pliku). Tworzenie 1 pliku dla Ciebie w folderze", true);
 						plugin.saveDefaultConfig();
 					}
 					sender.sendMessage(ChatColor.DARK_GREEN + "Pomyslnie przeladowano plik config.yml!");
-					
-					// portale.yml
-					try {
-						//plugin.reloadPortals();
-					} catch(YAMLException ex) {
-						DyrtCraftPlugin.sendMsgToOp("Nastapil blad z plikiem portale.yml (YAMLException)", 1);
-					} catch(Exception ex) {
-						DyrtCraftPlugin.sendMsgToOp("Nastapil blad z plikiem portale.yml (Nie znaleziono pliku). Tworzenie 1 pliku dla Ciebie w folderze", 1);
-						//plugin.saveDefaultPortals();
-					}
-					sender.sendMessage(ChatColor.DARK_GREEN + "Pomyslnie przeladowano plik portale.yml!");
 					return true;
-				}
-				if(args[0].equalsIgnoreCase("servers")) {
-					return erServersArg(sender);
 				} else {
 					return erArg(sender, "Podano bledy argument!");
 				}
@@ -95,20 +82,7 @@ public class DcxpCommand implements CommandExecutor {
 						return true;
 					}
 					return erPortalsArg(sender);
-				}
-				if(args[0].equalsIgnoreCase("servers")) {
-					if(args[1].equalsIgnoreCase("manage")) {
-						List<String> lista = plugin.getConfig().getStringList("lista-serwerow");
-						
-						sender.sendMessage(ChatColor.GOLD + "Lista dostepnych obecnie serwerów:");
-						
-						for(String l : lista) {
-							sender.sendMessage(l);
-						}
-						return true;
-					}
-					return erServersArg(sender);
-				}else {
+				} else {
 					return erArg(sender, "Podano bledy argument!");
 				}
 			}
@@ -122,7 +96,7 @@ public class DcxpCommand implements CommandExecutor {
 							
 							plugin.getConfig().set(serverName, null);
 							plugin.saveConfig();
-							DyrtCraftPlugin.sendMsgToOp(sender.getName() + " usunal portal na serwer " + serverName, 0);
+							DyrtCraft.getUtils().sendNotify(sender.getName() + " usunal portal na serwer " + serverName, false);
 							return true;
 						} else {
 							sender.sendMessage(ChatColor.RED + "Nie znaleziono portalu o nazwie \"" + serverName + "\"!");
@@ -130,28 +104,6 @@ public class DcxpCommand implements CommandExecutor {
 						}
 					}
 					return erPortalsArg(sender);
-				}
-				if(args[0].equalsIgnoreCase("servers")) {
-					if(args[1].equalsIgnoreCase("add")) {
-						return erServersArg(sender);
-					}
-					if(args[1].equalsIgnoreCase("delete")) {
-						String serverName = args[2];
-						
-						if(plugin.getConfig().getStringList("lista-serwerow").equals(serverName)) {
-							plugin.getConfig().getStringList("lista-serwerow").remove(serverName);
-							
-							plugin.getConfig().set("serwery." + serverName, null);
-							plugin.saveConfig();
-							sender.sendMessage(ChatColor.DARK_GREEN + "Pomyslnie usunieto serwer " + serverName);
-							DyrtCraftPlugin.sendMsgToOp(sender.getName() + " usunal serwer " + serverName, 0);
-							return true;
-						} else {
-							sender.sendMessage(ChatColor.RED + "Nie znaleziono serwera o nazwie \"" + serverName + "\"!");
-							return true;
-						}
-					}
-					return erServersArg(sender);
 				} else {
 					return erArg(sender, "Podano bledy argument!");
 				}
@@ -175,27 +127,11 @@ public class DcxpCommand implements CommandExecutor {
 						plugin.getConfig().set("portale." + serverName + "2.y", null);
 						plugin.getConfig().set("portale." + serverName + "2.z", null);
 						plugin.saveConfig();
-						DyrtCraftPlugin.sendMsgToOp(sender.getName() + " utworzyl portal do serwera " + serverName, 0);
+						DyrtCraft.getUtils().sendNotify(sender.getName() + " utworzyl portal na serwer " + serverName, false);
 						return true;
 					} else {
 						return erPortalsArg(sender);
 					}
-				}
-				if(args[0].equalsIgnoreCase("servers")) {
-					if(args[1].equalsIgnoreCase("add")) {
-						String serverName = args[2];
-						String serverAddress = args[3];
-						
-						plugin.getConfig().getStringList("lista-serwerow").add(serverName);
-						
-						plugin.getConfig().set("serwery." + serverName, serverAddress);
-						plugin.saveConfig();
-						
-						sender.sendMessage(ChatColor.DARK_GREEN + "Pomyslnie utworzono serwer " + serverName + " o adresie BungeeCord " + serverAddress);
-						DyrtCraftPlugin.sendMsgToOp(sender.getName() + " utworzyl serwer " + serverName, 0);
-						return true;
-					}
-					return erServersArg(sender);
 				}
 				return false;
 			} else {
@@ -216,15 +152,6 @@ public class DcxpCommand implements CommandExecutor {
 		sender.sendMessage(ChatColor.RED + "/dcxp portals create <nazwaSerwera>");
 		sender.sendMessage(ChatColor.RED + "/dcxp portals delete <nazwaSerwera>");
 		sender.sendMessage(ChatColor.RED + "/dcxp portals manage");
-		sender.sendMessage(ChatColor.RED + "Wazne: Aby stworzyc portal na serwer, musi byc on dostepny pod /dcxp server manage");
-		return true;
-	}
-	
-	protected boolean erServersArg(CommandSender sender) {
-		sender.sendMessage(ChatColor.GOLD + "========== Pomoc ==========");
-		sender.sendMessage(ChatColor.RED + "/dcxp servers add <nazwaSerwera> <adresSerwera>");
-		sender.sendMessage(ChatColor.RED + "/dcxp servers delete <nazwaSerwera>");
-		sender.sendMessage(ChatColor.RED + "/dcxp servers manage");
 		return true;
 	}
 	
